@@ -78,65 +78,65 @@ keyboard:
 base_layout:
   keys:
     # Row 1
-    - - ["x", "X", "ſ", "−", "ξ", "Ξ"]
-      - ["v", "V", "…", "⇞", "", "√"]
-      - ["l", "L", "_", "⌫", "λ", "Λ"]
-      - ["c", "C", "[", "⇡", "χ", "ℂ"]
-      - ["w", "W", "]", "⌦", "ω", "Ω"]
-      - ["k", "K", "^", "⇟", "κ", "×"]
-      - ["h", "H", "!", "¡", "ψ", "Ψ"]
-      - ["g", "G", "<", "7", "γ", "Γ"]
-      - ["f", "F", ">", "8", "φ", "Φ"]
-      - ["q", "Q", "=", "9", "ϕ", "ℚ"]
-      - ["y", "Y", "&", "+", "υ", "∇"]
-      - ["ß", "ẞ", "@", "-", "ς", "∘"]
+    - - ["\t"]
+      - [";" , "😜"  , "#", ""]
+      - ["," , "😜"  , "?", "1"]
+      - ["." , "😜"  , ":", "2"]
+      - ["u" , "U" , "*", "3"]
+      - ["y" , "Y" , "@", "."]
+      - ["v" , "V" , "$", ""]
+      - ["f" , "F" , "/", ""]
+      - ["c" , "C" , "&", ""]
+      - ["h" , "H" , "|", ""]
+      - ["l" , "L" , "^", ""]
+      - ["z" , "Z" , "" , ""]
     # Row 2 (home row)
-    - - ["⇩"]
-      - ["u", "U", "\\", "⇱", "", "⊂"]
-      - ["i", "I", "/", "⇠", "ι", "∫"]
-      - ["a", "A", "{",  "⇣", "α", "∀"]
-      - ["e", "E", "}", "⇢", "ε", "∃"]
-      - ["o", "O", "*", "⇲", "ο", "∈"]
-      - ["s", "S", "?", "¿", "σ", "Σ"]
-      - ["n", "N", "(", "4", "ν", "ℕ"]
-      - ["r", "R", ")", "5", "ρ", "ℝ"]
-      - ["t", "T", "-", "6", "τ", "∂"]
-      - ["d", "D", ":", ",", "δ", "Δ"]
-      - ["⇘"]
+    - - ["⇩"] # num
+      - ["a", "A", "~", ""]
+      - ["o", "O", "[", "4"]
+      - ["e", "E", "{", "5"]
+      - ["i", "I", "(", "6"]
+      - ["p", "P", "<", "⌫"]
+      - ["d", "D", ">", "⌦"]
+      - ["r", "R", ")", ""]
+      - ["t", "T", "}", ""]
+      - ["s", "S", "]", ""]
+      - ["n", "N", "!", ""]
+      - ["+", "😜" , "-"]
     # Row 3
-    - - [""]
-      - ["ü", "Ü", "#", "", "", "∪"]
-      - ["ö", "Ö", "$", "\t", "ϵ", "∩"]
-      - ["ä", "Ä", "|", "⎀", "η", "ℵ"]
-      - ["p", "P", "~", "\n", "π", "Π"]
-      - ["z", "Z", "`", "↶", "ζ", "ℤ"]
-      - ["b", "B", "+", ":", "β", "⇐"]
-      - ["m", "M", "%", "1", "μ", "⇔"]
-      - [",", "–", '"', "2", "ϱ", "⇒"]
-      - [".", "•", "'", "3", "ϑ", "↦"]
-      - ["j", "J", ";", ".", "θ", "Θ"]
-      - [""]
+    - - ["⇧"] # shift
+      - ["x", "X", "", ""]
+      - ["k", "K", "", "7"]
+      - ["j", "J", "", "8"]
+      - ["b", "B", "%", "9"]
+      - ["q", "Q", "", "0"]
+      - ["m", "M", "", ""]
+      - ["w", "W", "\\", ""]
+      - ["g", "G", "", ""]
+      - ["\"", "`", "'", ""]
+      - ["=", "=", "", ""]
+      - ["⇧"] # shift
     # Row 4, containing the spacebar
-    - - ["⇚"]
-      - ["⇧"]
-      - ["\t"]
+    - - ["⇚"] # ctl
+      - ["⇘"] # alt
+      - [" ", "↻", "_"] # esc
       - ["\n"]
-      - [" ", " ", " ", "0", " ", " "]
-      - ["⇙"]
+      - ["⇘"] # alt
+      - ["⇚"] # ctl
 
   fixed_keys:
     - [ false, false, false, false, false, false,                  false, false, false, false, false, false]
-    - [  true, false, false, false, false, false,                  false, false, false, false, false,  true]
-    - [  true, false, false, false, false, false,                  false, false, false, false, false,  true]
-    - [                              true,  true,  true,    true,  true,  true                             ]
+    - [ false, false, false, false, false, false,                  false, false, false, false, false, false]
+    - [ false, false, false, false, false, false,                  false, false, false, false, false, false]
+    - [                             false, false, false,   false, false, false                             ]
 
   # for NeoLayoutGenerator:
   # layers that shall not be permutated (starting from 0)
-  fixed_layers: [2, 3]
+  fixed_layers: []
 
   # for GroupedLayoutGenerator:
   # number of consecutive symbols from base layout to group together generating a layout
-  grouped_layers: 2
+  grouped_layers: 1
 
   # modifier types can be "hold", "one_shot", and "long_press"
   #
@@ -145,31 +145,19 @@ base_layout:
   modifiers:
     - Left:
         type: hold
+        value: [[1,3]]
+      Right:
+        type: hold
+        value: [[18,3]]
+    - Left:
+        type: hold
         value: [[6,4]]
       Right:
         type: hold
-        value: [[6,4]]
+        value: [[13,4]]
     - Left:
         type: hold
         value: [[1,2]]
       Right:
         type: hold
-        value: [[18,2]]
-    - Left:
-        type: hold
-        value: [[5,4]]
-      Right:
-        type: hold
-        value: [[14,4]]
-    - Left:
-        type: hold
-        value: [[6,4],[5,4]]
-      Right:
-        type: hold
-        value: [[6,4],[14,4]]
-    - Left:
-        type: hold
-        value: [[1,2],[5,4]]
-      Right:
-        type: hold
-        value: [[18,2],[14,4]]
+        value: [[1,2]]
