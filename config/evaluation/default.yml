@@ -69,7 +69,7 @@ metrics:
   # Each finger's load shall be relative to the specified weights
   finger_balance:
     enabled: true
-    weight: 50.0
+    weight: 150.0
     normalization:
       type: fixed
       value: 1.0
@@ -90,7 +90,7 @@ metrics:
   # Each hand's load shall be close to 50%
   hand_disbalance:
     enabled: true
-    weight: 40.0
+    weight: 100.0
     normalization:
       type: fixed
       value: 1.0
@@ -124,7 +124,7 @@ metrics:
       type: weight_found
       value: 1.0
     params:
-      hold_cost: 1.0
+      hold_cost: 1.25
       one_shot_cost: 0.0
       long_press_cost: 1.0
 
@@ -278,7 +278,7 @@ metrics:
 
       # If a movement involves a lateral stretch (the keys are more columns apart than the fingers),
       # (one plus) this factor is multiplied to the cost with the number of columns to stretch.
-      lateral_stretch_factor: 0.0
+      lateral_stretch_factor: 0.1
 
   # If no handswitch occurs after hitting an "unbalancing" key (as defined in the keyboard's layout
   # config), a cost is counted depending on how far the unbalancing takes place.
@@ -289,7 +289,7 @@ metrics:
       type: weight_found
       value: 1.0
     params:
-      null: null
+      unbalancing_after_unbalancing: 4
 
 
   # trigram metrics
@@ -350,7 +350,7 @@ metrics:
       # These trigrams do not need to be optimized, because they're "designed" to contain a pause.
       # Mental pauses start with one of the defined `initial_pause_indicators` and then contain
       # some kind of whitespace.
-      initial_pause_indicators: [",", "."]
+      initial_pause_indicators: [] # [",", "."]
 
   # If all keys corresponding to a trigram are hit by the same finger (and are all unequal), a cost
   # is counted. A factor is multiplied for each bigram with keys belonging to different columns.
@@ -378,25 +378,25 @@ metrics:
 
   oxey_inward_rolls:
     enabled: true
-    weight: -2.0
+    weight: -2.1
     normalization:
       type: weight_all
       value: 0.01
     params:
-      exclude_thumbs: true
+      exclude_thumbs: false
       exclude_modifiers: true
-      exclude_chars: ["\n"]
+      exclude_chars: []
 
   oxey_outward_rolls:
     enabled: true
-    weight: -1.0
+    weight: -0.7
     normalization:
       type: weight_all
       value: 0.01
     params:
-      exclude_thumbs: true
+      exclude_thumbs: false
       exclude_modifiers: true
-      exclude_chars: ["\n"]
+      exclude_chars: []
 
 ngrams:
   # Increase the weight of bigrams that have both an absolute weight and relative weight exceed
@@ -415,7 +415,7 @@ ngram_mapper:
   # Exclude ngrams that contain a line break, followed by a non-line-break character.
   # This encodes a mental pause which usually comes after hitting the "Enter" key, before
   # continuing to write.
-  exclude_line_breaks: true
+  exclude_line_breaks: false
 
   # Split symbols belonging to higher layers of the layout into combinations involving modifiers
   # required to activate the layer
