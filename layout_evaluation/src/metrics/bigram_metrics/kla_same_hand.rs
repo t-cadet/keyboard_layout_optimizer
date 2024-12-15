@@ -12,14 +12,14 @@ use serde::Deserialize;
 pub struct Parameters {
     pub ignore_modifiers: bool,
     pub ignore_thumbs: bool,
-    pub hscoring: AHashMap<Hand, f64>,
+    pub hscoring: AHashMap<Hand, f32>,
 }
 
 #[derive(Clone, Debug)]
 pub struct KLASameHand {
     ignore_modifiers: bool,
     ignore_thumbs: bool,
-    hscoring: HandMap<f64>,
+    hscoring: HandMap<f32>,
 }
 
 impl KLASameHand {
@@ -39,11 +39,11 @@ impl BigramMetric for KLASameHand {
 
     fn total_cost(
         &self,
-        bigrams: &[((&LayerKey, &LayerKey), f64)],
-        _total_weight: Option<f64>,
+        bigrams: &[((&LayerKey, &LayerKey), f32)],
+        _total_weight: Option<f32>,
         layout: &Layout,
-    ) -> (f64, Option<String>) {
-        let mut hand_values: HandMap<f64> = HandMap::with_default(0.0);
+    ) -> (f32, Option<String>) {
+        let mut hand_values: HandMap<f32> = HandMap::with_default(0.0);
 
         bigrams.iter().for_each(|((prev_key, curr_key), weight)| {
             let mut prev_hands_used: HandMap<bool> = HandMap::with_default(false);
@@ -76,7 +76,7 @@ impl BigramMetric for KLASameHand {
             prev_hands_used
                 .iter()
                 .zip(curr_hands_used.iter())
-                .zip(HandMap::<f64>::keys())
+                .zip(HandMap::<f32>::keys())
                 .for_each(|((prev_used, curr_used), hand)| {
                     if *prev_used && *curr_used {
                         *hand_values.get_mut(&hand) += *weight;
@@ -92,7 +92,7 @@ impl BigramMetric for KLASameHand {
 
         hand_values
             .iter_mut()
-            .zip(HandMap::<f64>::keys().iter())
+            .zip(HandMap::<f32>::keys().iter())
             .for_each(|(c, hand)| {
                 let hscore = self.hscoring.get(hand);
                 *c *= hscore

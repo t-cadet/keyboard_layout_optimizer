@@ -5,7 +5,7 @@ use std::{hash::Hash, path::Path, str::FromStr};
 use layout_evaluation::ngrams::{Bigrams, Trigrams, Unigrams};
 
 #[derive(Debug)]
-struct WeightedComponent(f64, String);
+struct WeightedComponent(f32, String);
 
 impl FromStr for WeightedComponent {
     type Err = String;
@@ -14,7 +14,7 @@ impl FromStr for WeightedComponent {
         let components: Vec<&str> = s.splitn(2, ':').collect();
 
         let path = components[0].to_string();
-        let weight = f64::from_str(components[1]).unwrap();
+        let weight = f32::from_str(components[1]).unwrap();
 
         Ok(WeightedComponent(weight, path))
     }
@@ -31,7 +31,7 @@ struct Options {
     components: Vec<WeightedComponent>,
 }
 
-fn add<T: Clone + Eq + Hash>(weight: f64, res: &mut AHashMap<T, f64>, ngrams: &AHashMap<T, f64>) {
+fn add<T: Clone + Eq + Hash>(weight: f32, res: &mut AHashMap<T, f32>, ngrams: &AHashMap<T, f32>) {
     ngrams.iter().fold(res, |acc, (c, w)| {
         let entry = acc.entry(c.clone()).or_default();
         *entry += weight * w;
@@ -49,9 +49,9 @@ fn main() {
     let mut res_bigrams = AHashMap::default();
     let mut res_trigrams = AHashMap::default();
 
-    let mut target_unigrams_total: Option<f64> = None;
-    let mut target_bigrams_total: Option<f64> = None;
-    let mut target_trigrams_total: Option<f64> = None;
+    let mut target_unigrams_total: Option<f32> = None;
+    let mut target_bigrams_total: Option<f32> = None;
+    let mut target_trigrams_total: Option<f32> = None;
 
     for component in options.components {
         log::info!("Processing {}...", component.1);

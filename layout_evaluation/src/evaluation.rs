@@ -27,7 +27,7 @@ pub struct WeightedParams<T> {
     /// Wether the metric is to be evaluated.
     pub enabled: bool,
     /// The weight to use when aggregating all metrics.
-    pub weight: f64,
+    pub weight: f32,
     /// The normalization strategy to use.
     pub normalization: NormalizationType,
     /// The metric's individual parameters.
@@ -86,10 +86,10 @@ pub struct MetricParameters {
 /// The metrics are handled as dynamically dispatched trait objects for the metric traits in the `metrics` module.
 #[derive(Clone, Debug)]
 pub struct Evaluator {
-    layout_metrics: Vec<(f64, NormalizationType, Box<dyn LayoutMetric>)>,
-    unigram_metrics: Vec<(f64, NormalizationType, Box<dyn UnigramMetric>)>,
-    bigram_metrics: Vec<(f64, NormalizationType, Box<dyn BigramMetric>)>,
-    trigram_metrics: Vec<(f64, NormalizationType, Box<dyn TrigramMetric>)>,
+    layout_metrics: Vec<(f32, NormalizationType, Box<dyn LayoutMetric>)>,
+    unigram_metrics: Vec<(f32, NormalizationType, Box<dyn UnigramMetric>)>,
+    bigram_metrics: Vec<(f32, NormalizationType, Box<dyn BigramMetric>)>,
+    trigram_metrics: Vec<(f32, NormalizationType, Box<dyn TrigramMetric>)>,
     ngram_mapper: Box<dyn NgramMapper>,
 }
 
@@ -207,7 +207,7 @@ impl Evaluator {
     pub fn layout_metric(
         &mut self,
         metric: Box<dyn LayoutMetric>,
-        weight: f64,
+        weight: f32,
         normalization: NormalizationType,
     ) {
         self.layout_metrics.push((weight, normalization, metric));
@@ -217,7 +217,7 @@ impl Evaluator {
     pub fn unigram_metric(
         &mut self,
         metric: Box<dyn UnigramMetric>,
-        weight: f64,
+        weight: f32,
         normalization: NormalizationType,
     ) {
         self.unigram_metrics.push((weight, normalization, metric));
@@ -227,7 +227,7 @@ impl Evaluator {
     pub fn bigram_metric(
         &mut self,
         metric: Box<dyn BigramMetric>,
-        weight: f64,
+        weight: f32,
         normalization: NormalizationType,
     ) {
         self.bigram_metrics.push((weight, normalization, metric));
@@ -237,7 +237,7 @@ impl Evaluator {
     pub fn trigram_metric(
         &mut self,
         metric: Box<dyn TrigramMetric>,
-        weight: f64,
+        weight: f32,
         normalization: NormalizationType,
     ) {
         self.trigram_metrics.push((weight, normalization, metric));
@@ -271,7 +271,7 @@ impl Evaluator {
     fn evaluate_unigram_metrics(
         &self,
         layout: &Layout,
-        keys: &[(&LayerKey, f64)],
+        keys: &[(&LayerKey, f32)],
     ) -> Vec<MetricResult> {
         if self.unigram_metrics.is_empty() {
             return Vec::new();
@@ -300,7 +300,7 @@ impl Evaluator {
     fn evaluate_bigram_metrics(
         &self,
         layout: &Layout,
-        keys: &[((&LayerKey, &LayerKey), f64)],
+        keys: &[((&LayerKey, &LayerKey), f32)],
     ) -> Vec<MetricResult> {
         if self.bigram_metrics.is_empty() {
             return Vec::new();
@@ -329,7 +329,7 @@ impl Evaluator {
     fn evaluate_trigram_metrics(
         &self,
         layout: &Layout,
-        keys: &[((&LayerKey, &LayerKey, &LayerKey), f64)],
+        keys: &[((&LayerKey, &LayerKey, &LayerKey), f32)],
     ) -> Vec<MetricResult> {
         if self.trigram_metrics.is_empty() {
             return Vec::new();

@@ -23,9 +23,9 @@ pub struct Parameters {
     pub population_size: usize,
     pub generation_limit: u64,
     pub num_individuals_per_parents: usize,
-    pub selection_ratio: f64,
-    pub mutation_rate: f64,
-    pub reinsertion_ratio: f64,
+    pub selection_ratio: f32,
+    pub mutation_rate: f32,
+    pub reinsertion_ratio: f32,
 }
 
 impl Default for Parameters {
@@ -258,14 +258,14 @@ pub fn init_optimization(
                 result_cache,
             })
             .with_selection(MaximizeSelector::new(
-                params.selection_ratio,
+                params.selection_ratio.into(),
                 params.num_individuals_per_parents,
             ))
             // .with_crossover(PartiallyMappedCrossover::new())
             // .with_crossover(MyCrossover::new())
             .with_crossover(NoOpCrossover::new())
-            .with_mutation(SwapOrderMutator::new(params.mutation_rate))
-            .with_reinsertion(UniformReinserter::new(params.reinsertion_ratio))
+            .with_mutation(SwapOrderMutator::new(params.mutation_rate.into()))
+            .with_reinsertion(UniformReinserter::new(params.reinsertion_ratio.into()))
             .with_initial_population(initial_population)
             .build(),
     )

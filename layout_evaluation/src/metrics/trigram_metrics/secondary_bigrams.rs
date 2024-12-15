@@ -14,24 +14,24 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     /// Factor to apply to a trigram's weight before assigning it to the secondary bigram if the trigram involves no handswitch.
-    pub factor_no_handswitch: f64,
+    pub factor_no_handswitch: f32,
     /// Factor to apply to a trigram's weight before assigning it to the secondary bigram if the trigram involves a handswitch.
-    pub factor_handswitch: f64,
+    pub factor_handswitch: f32,
     /// Exclude secondary bigrams for trigrams starting with at least one of the given symbols.
     pub initial_pause_indicators: Vec<char>,
 }
 
 #[derive(Clone, Debug)]
 pub struct SecondaryBigrams {
-    bigram_metrics: Vec<(f64, NormalizationType, Box<dyn BigramMetric>)>,
-    factor_no_handswitch: f64,
-    factor_handswitch: f64,
+    bigram_metrics: Vec<(f32, NormalizationType, Box<dyn BigramMetric>)>,
+    factor_no_handswitch: f32,
+    factor_handswitch: f32,
     initial_pause_indicators: Vec<char>,
 }
 
 impl SecondaryBigrams {
     pub fn new(
-        bigram_metrics: Vec<(f64, NormalizationType, Box<dyn BigramMetric>)>,
+        bigram_metrics: Vec<(f32, NormalizationType, Box<dyn BigramMetric>)>,
         params: &Parameters,
     ) -> Self {
         Self {
@@ -54,10 +54,10 @@ impl TrigramMetric for SecondaryBigrams {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
-        total_weight: f64,
+        weight: f32,
+        total_weight: f32,
         layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         if k1 == k3 && k1.is_modifier.is_some() {
             return Some(0.0);
         }
@@ -80,7 +80,7 @@ impl TrigramMetric for SecondaryBigrams {
             self.factor_handswitch
         };
 
-        let cost: f64 = self
+        let cost: f32 = self
             .bigram_metrics
             .iter()
             .map(|(metric_weight, _, metric)| {

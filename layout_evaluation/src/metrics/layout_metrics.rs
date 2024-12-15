@@ -14,7 +14,7 @@ pub trait LayoutMetric: Send + Sync + LayoutMetricClone + fmt::Debug {
     /// Return the name of the metric
     fn name(&self) -> &str;
     /// Compute the total cost for the metric
-    fn total_cost(&self, layout: &Layout) -> (f64, Option<String>);
+    fn total_cost(&self, layout: &Layout) -> (f32, Option<String>);
 }
 
 // in order to implement clone for Box<dyn LayoutMetric>, the following trick is necessary

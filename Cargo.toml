@@ -14,5 +14,11 @@ exclude = [
 ]
 
 [profile.release]
-codegen-units = 1
-lto = true
+opt-level = 3          # Maximum optimizations
+lto = "thin"           # Thin Link Time Optimization
+codegen-units = 1      # Single unit for codegen
+panic = "abort"        # Reduces binary size (no stack unwinding)
+overflow-checks = false # Disable integer overflow checks
+incremental = false    # Disable incremental compilation
+strip = true
+debug = false

@@ -40,7 +40,7 @@ pub struct KeyboardYAML {
     positions: Vec<Vec<Position>>,
     hands: Vec<Vec<Hand>>,
     fingers: Vec<Vec<Finger>>,
-    key_costs: Vec<Vec<f64>>,
+    key_costs: Vec<Vec<f32>>,
     symmetries: Vec<Vec<u8>>,
     unbalancing_positions: Vec<Vec<Position>>,
     finger_resting_positions: AHashMap<Hand, AHashMap<Finger, Position>>,
@@ -165,8 +165,8 @@ impl Keyboard {
             .unwrap()
     }
 
-    pub fn estimated_finger_loads(&self, exclude_thumbs: bool) -> HandFingerMap<f64> {
-        let mut intended_loads: HandFingerMap<f64> = HandFingerMap::with_default(0.0);
+    pub fn estimated_finger_loads(&self, exclude_thumbs: bool) -> HandFingerMap<f32> {
+        let mut intended_loads: HandFingerMap<f32> = HandFingerMap::with_default(0.0);
 
         self.keys
             .iter()
@@ -176,21 +176,21 @@ impl Keyboard {
                 *il += 1.0 / (1.0 + k.cost);
             });
 
-        let sum: f64 = intended_loads.iter().sum();
+        let sum: f32 = intended_loads.iter().sum();
         intended_loads.iter_mut().for_each(|il| *il /= sum);
 
         intended_loads
     }
 
-    pub fn estimated_row_loads(&self) -> AHashMap<u8, f64> {
-        let mut intended_loads: AHashMap<u8, f64> = AHashMap::default();
+    pub fn estimated_row_loads(&self) -> AHashMap<u8, f32> {
+        let mut intended_loads: AHashMap<u8, f32> = AHashMap::default();
 
         self.keys.iter().for_each(|k| {
             let il = intended_loads.entry(k.matrix_position.1).or_insert(0.0);
             *il += 1.0 / (1.0 + k.cost);
         });
 
-        let sum: f64 = intended_loads.values().sum();
+        let sum: f32 = intended_loads.values().sum();
         intended_loads.values_mut().for_each(|il| *il /= sum);
 
         intended_loads

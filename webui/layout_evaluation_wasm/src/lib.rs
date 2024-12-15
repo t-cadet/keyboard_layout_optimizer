@@ -42,7 +42,7 @@ extern "C" {
 
 #[derive(Debug, Clone, Serialize)]
 struct LayoutEvaluation {
-    total_cost: f64,
+    total_cost: f32,
     details: EvaluationResult,
     printed: Option<String>,
     plot: Option<String>,

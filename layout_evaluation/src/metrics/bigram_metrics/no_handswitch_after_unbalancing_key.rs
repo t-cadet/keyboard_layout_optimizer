@@ -34,10 +34,10 @@ impl BigramMetric for NoHandSwitchAfterUnbalancingKey {
         &self,
         k1: &LayerKey,
         k2: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         if k1.key.hand != k2.key.hand  // or handswitch occurred -> no cost
             || k1.key.finger == Finger::Thumb  // or one finger was a thumb -> no cost
             || k2.key.finger == Finger::Thumb

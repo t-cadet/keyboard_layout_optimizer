@@ -62,7 +62,7 @@ fn main() {
         env::set_var("SHOW_WORST", "false");
     };
 
-    let final_results: Cache<f64> = Cache::new();
+    let final_results: Cache<f32> = Cache::new();
 
     // Handle Ctrl+C
     let cloned_final_results = final_results.clone();
@@ -133,7 +133,7 @@ fn main() {
 
         // Publish to webservice.
         let o = &options.publishing_options;
-        if o.publish_as.is_some() && cost < o.publish_if_cost_below.unwrap_or(f64::INFINITY) {
+        if o.publish_as.is_some() && cost < o.publish_if_cost_below.unwrap_or(f32::INFINITY) {
             common::publish_to_webservice(
                 &layout_str,
                 o.publish_as.as_ref().unwrap(),

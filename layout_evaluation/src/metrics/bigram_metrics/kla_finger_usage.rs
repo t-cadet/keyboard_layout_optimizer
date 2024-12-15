@@ -11,15 +11,15 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     pub ignore_modifiers: bool,
-    pub fscoring: AHashMap<Hand, AHashMap<Finger, f64>>,
-    pub hscoring: AHashMap<Hand, f64>,
+    pub fscoring: AHashMap<Hand, AHashMap<Finger, f32>>,
+    pub hscoring: AHashMap<Hand, f32>,
 }
 
 #[derive(Clone, Debug)]
 pub struct KLAFingerUsage {
     ignore_modifiers: bool,
-    fscoring: HandFingerMap<f64>,
-    hscoring: HandMap<f64>,
+    fscoring: HandFingerMap<f32>,
+    hscoring: HandMap<f32>,
 }
 
 impl KLAFingerUsage {
@@ -39,11 +39,11 @@ impl BigramMetric for KLAFingerUsage {
 
     fn total_cost(
         &self,
-        bigrams: &[((&LayerKey, &LayerKey), f64)],
-        _total_weight: Option<f64>,
+        bigrams: &[((&LayerKey, &LayerKey), f32)],
+        _total_weight: Option<f32>,
         layout: &Layout,
-    ) -> (f64, Option<String>) {
-        let mut finger_values: HandFingerMap<f64> = HandFingerMap::with_default(0.0);
+    ) -> (f32, Option<String>) {
+        let mut finger_values: HandFingerMap<f32> = HandFingerMap::with_default(0.0);
 
         bigrams.iter().for_each(|((prev_key, curr_key), weight)| {
             *finger_values.get_mut(&curr_key.key.hand, &curr_key.key.finger) += *weight;
@@ -87,7 +87,7 @@ impl BigramMetric for KLAFingerUsage {
 
         finger_values
             .iter_mut()
-            .zip(HandFingerMap::<f64>::keys().iter())
+            .zip(HandFingerMap::<f32>::keys().iter())
             .for_each(|(c, (hand, finger))| {
                 let fscore = self.fscoring.get(hand, finger);
                 let hscore = self.hscoring.get(hand);

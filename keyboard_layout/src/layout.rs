@@ -382,14 +382,14 @@ impl Layout {
                 let entry = m.entry(layerkey.symbol).or_insert(layerkey_index);
                 let entry_layerkey = &layerkeys[*entry as usize]; // is layerkey or existing one from map m
 
-                let entry_modifier_cost: f64 = entry_layerkey
+                let entry_modifier_cost: f32 = entry_layerkey
                     .modifiers
                     .layerkey_indices()
                     .iter()
                     .map(|i| layerkeys[*i as usize].key.cost)
                     .sum();
 
-                let new_modifier_cost: f64 = layerkey
+                let new_modifier_cost: f32 = layerkey
                     .modifiers
                     .layerkey_indices()
                     .iter()

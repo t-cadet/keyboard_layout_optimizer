@@ -11,14 +11,14 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     pub shortcut_chars: String,
-    pub cost: f64,
+    pub cost: f32,
     pub within_n_leftmost_cols: u8,
 }
 
 #[derive(Clone, Debug)]
 pub struct ShortcutKeys {
     shortcut_chars: Vec<char>,
-    cost: f64,
+    cost: f32,
     within_n_leftmost_cols: u8,
 }
 
@@ -37,7 +37,7 @@ impl LayoutMetric for ShortcutKeys {
         "Badly Positioned Shortcut Keys"
     }
 
-    fn total_cost(&self, layout: &Layout) -> (f64, Option<String>) {
+    fn total_cost(&self, layout: &Layout) -> (f32, Option<String>) {
         let mut cost = 0.0;
         let mut bad_keys = Vec::new();
         self.shortcut_chars.iter().for_each(|c| {

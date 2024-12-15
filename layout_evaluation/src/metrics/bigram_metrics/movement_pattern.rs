@@ -16,28 +16,28 @@ use serde::Deserialize;
 pub struct FingerSwitchCost {
     pub from: (Hand, Finger),
     pub to: (Hand, Finger),
-    pub cost: f64,
+    pub cost: f32,
 }
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     /// Cost associated with bigrams from a finger to another one
     finger_switch_factor: Vec<FingerSwitchCost>,
-    finger_lengths: AHashMap<Hand, AHashMap<Finger, f64>>,
-    short_down_to_long_or_long_up_to_short_factor: f64,
-    same_row_offset: f64,
-    unbalancing_factor: f64,
-    lateral_stretch_factor: f64,
+    finger_lengths: AHashMap<Hand, AHashMap<Finger, f32>>,
+    short_down_to_long_or_long_up_to_short_factor: f32,
+    same_row_offset: f32,
+    unbalancing_factor: f32,
+    lateral_stretch_factor: f32,
 }
 
 #[derive(Clone, Debug)]
 pub struct MovementPattern {
-    finger_switch_factor: HandFingerMap<HandFingerMap<f64>>,
-    finger_lengths: HandFingerMap<f64>,
-    short_down_to_long_or_long_up_to_short_factor: f64,
-    same_row_offset: f64,
-    unbalancing_factor: f64,
-    lateral_stretch_factor: f64,
+    finger_switch_factor: HandFingerMap<HandFingerMap<f32>>,
+    finger_lengths: HandFingerMap<f32>,
+    short_down_to_long_or_long_up_to_short_factor: f32,
+    same_row_offset: f32,
+    unbalancing_factor: f32,
+    lateral_stretch_factor: f32,
 }
 
 impl MovementPattern {
@@ -72,10 +72,10 @@ impl BigramMetric for MovementPattern {
         &self,
         k1: &LayerKey,
         k2: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         let f1 = k1.key.finger;
         let f2 = k2.key.finger;
         let h1 = k1.key.hand;
@@ -96,7 +96,7 @@ impl BigramMetric for MovementPattern {
         let first_is_longer = finger_length_diff > 0.0;
         let first_is_shorter = finger_length_diff < 0.0;
 
-        let num_rows = pos1.1.abs_diff(pos2.1) as f64;
+        let num_rows = pos1.1.abs_diff(pos2.1) as f32;
 
         let finger_switch_factor = self.finger_switch_factor.get(&h1, &f1).get(&h2, &f2);
         let direction_factor = if (downwards && first_is_shorter) || (upwards && first_is_longer) {
@@ -113,7 +113,7 @@ impl BigramMetric for MovementPattern {
         let lateral_stretch_factor = 1.0
             + (f1.distance(&f2))
                 .abs_diff(k1.key.matrix_position.0.abs_diff(k2.key.matrix_position.0))
-                as f64
+                as f32
                 * self.lateral_stretch_factor;
 
         let cost = (self.same_row_offset + num_rows * num_rows)

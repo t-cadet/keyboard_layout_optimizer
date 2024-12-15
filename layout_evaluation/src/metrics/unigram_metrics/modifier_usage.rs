@@ -8,16 +8,16 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
-    pub hold_cost: f64,
-    pub one_shot_cost: f64,
-    pub long_press_cost: f64,
+    pub hold_cost: f32,
+    pub one_shot_cost: f32,
+    pub long_press_cost: f32,
 }
 
 #[derive(Clone, Debug)]
 pub struct ModifierUsage {
-    pub hold_cost: f64,
-    pub one_shot_cost: f64,
-    pub long_press_cost: f64,
+    pub hold_cost: f32,
+    pub one_shot_cost: f32,
+    pub long_press_cost: f32,
 }
 
 impl ModifierUsage {
@@ -39,10 +39,10 @@ impl UnigramMetric for ModifierUsage {
     fn individual_cost(
         &self,
         key: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         // costs if this key is a modifier
         let key_cost = match key.is_modifier {
             LayerModifierType::Hold => self.hold_cost,
@@ -53,8 +53,8 @@ impl UnigramMetric for ModifierUsage {
 
         // costs if this key relies on modifiers (that were not split in ngram splitting)
         let modifier_costs = match &key.modifiers {
-            LayerModifiers::Hold(v) => self.hold_cost * v.len() as f64,
-            LayerModifiers::OneShot(v) => self.one_shot_cost * v.len() as f64,
+            LayerModifiers::Hold(v) => self.hold_cost * v.len() as f32,
+            LayerModifiers::OneShot(v) => self.one_shot_cost * v.len() as f32,
             LayerModifiers::LongPress => self.long_press_cost,
         };
 

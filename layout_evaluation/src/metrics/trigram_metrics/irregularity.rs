@@ -20,12 +20,12 @@ pub struct Parameters {}
 
 #[derive(Clone, Debug)]
 pub struct Irregularity {
-    bigram_metrics: Vec<(f64, NormalizationType, Box<dyn BigramMetric>)>,
+    bigram_metrics: Vec<(f32, NormalizationType, Box<dyn BigramMetric>)>,
 }
 
 impl Irregularity {
     pub fn new(
-        bigram_metrics: Vec<(f64, NormalizationType, Box<dyn BigramMetric>)>,
+        bigram_metrics: Vec<(f32, NormalizationType, Box<dyn BigramMetric>)>,
         _params: &Parameters,
     ) -> Self {
         Self { bigram_metrics }
@@ -43,11 +43,11 @@ impl TrigramMetric for Irregularity {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
-        total_weight: f64,
+        weight: f32,
+        total_weight: f32,
         layout: &Layout,
-    ) -> Option<f64> {
-        let costs: (f64, f64) = self
+    ) -> Option<f32> {
+        let costs: (f32, f32) = self
             .bigram_metrics
             .iter()
             .map(|(metric_weight, _, metric)| {
@@ -70,10 +70,10 @@ impl TrigramMetric for Irregularity {
 
     fn total_cost(
         &self,
-        trigrams: &[((&LayerKey, &LayerKey, &LayerKey), f64)],
-        total_weight: Option<f64>,
+        trigrams: &[((&LayerKey, &LayerKey, &LayerKey), f32)],
+        total_weight: Option<f32>,
         layout: &Layout,
-    ) -> (f64, Option<String>) {
+    ) -> (f32, Option<String>) {
         let show_worst: bool = env::var("SHOW_WORST")
             .ok()
             .and_then(|s| s.parse().ok())
@@ -124,7 +124,7 @@ impl TrigramMetric for Irregularity {
                 },
             );
 
-            let gen_msgs = |q: DoublePriorityQueue<usize, OrderedFloat<f64>>| {
+            let gen_msgs = |q: DoublePriorityQueue<usize, OrderedFloat<f32>>| {
                 let worst_msgs: Vec<String> = q
                     .into_sorted_iter()
                     .rev()
@@ -163,7 +163,7 @@ impl TrigramMetric for Irregularity {
 
             (total_cost, msg)
         } else {
-            let total_cost: f64 = cost_iter.map(|(_, _, c)| c).sum();
+            let total_cost: f32 = cost_iter.map(|(_, _, c)| c).sum();
 
             (total_cost, None)
         };

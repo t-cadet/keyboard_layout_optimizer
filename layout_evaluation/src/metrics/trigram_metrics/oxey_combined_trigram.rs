@@ -13,18 +13,18 @@ pub struct Parameters {
     exclude_thumbs: bool,
     exclude_modifiers: bool,
     exclude_chars: Vec<char>,
-    same_hand_double_finger_repeat: f64,
-    same_hand_single_finger_repeat: f64,
-    same_hand_roll: f64,
-    same_hand_redirect: f64,
-    same_hand_bad_redirect: f64,
-    roll_same_finger: f64,
-    roll_inwards: f64,
-    roll_outwards: f64,
-    roll_other: f64,
-    alternate_other_finger: f64,
-    alternate_same_key: f64,
-    alternate_finger_repeat: f64,
+    same_hand_double_finger_repeat: f32,
+    same_hand_single_finger_repeat: f32,
+    same_hand_roll: f32,
+    same_hand_redirect: f32,
+    same_hand_bad_redirect: f32,
+    roll_same_finger: f32,
+    roll_inwards: f32,
+    roll_outwards: f32,
+    roll_other: f32,
+    alternate_other_finger: f32,
+    alternate_same_key: f32,
+    alternate_finger_repeat: f32,
 }
 
 #[derive(Clone, Debug)]
@@ -32,34 +32,34 @@ pub struct OxeyCombinedTrigram {
     exclude_thumbs: bool,
     exclude_modifiers: bool,
     exclude_chars: AHashSet<char>,
-    same_hand_double_finger_repeat: f64,
-    same_hand_single_finger_repeat: f64,
-    same_hand_roll: f64,
-    same_hand_redirect: f64,
-    same_hand_bad_redirect: f64,
-    roll_same_finger: f64,
-    roll_inwards: f64,
-    roll_outwards: f64,
-    roll_other: f64,
-    alternate_other_finger: f64,
-    alternate_same_key: f64,
-    alternate_finger_repeat: f64,
+    same_hand_double_finger_repeat: f32,
+    same_hand_single_finger_repeat: f32,
+    same_hand_roll: f32,
+    same_hand_redirect: f32,
+    same_hand_bad_redirect: f32,
+    roll_same_finger: f32,
+    roll_inwards: f32,
+    roll_outwards: f32,
+    roll_other: f32,
+    alternate_other_finger: f32,
+    alternate_same_key: f32,
+    alternate_finger_repeat: f32,
 }
 
 #[derive(Debug, Default)]
 struct TrigramTypeCounts {
-    same_hand_double_finger_repeat: f64,
-    same_hand_single_finger_repeat: f64,
-    same_hand_roll: f64,
-    same_hand_redirect: f64,
-    same_hand_bad_redirect: f64,
-    roll_same_finger: f64,
-    roll_inwards: f64,
-    roll_outwards: f64,
-    roll_other: f64,
-    alternate_other_finger: f64,
-    alternate_same_key: f64,
-    alternate_finger_repeat: f64,
+    same_hand_double_finger_repeat: f32,
+    same_hand_single_finger_repeat: f32,
+    same_hand_roll: f32,
+    same_hand_redirect: f32,
+    same_hand_bad_redirect: f32,
+    roll_same_finger: f32,
+    roll_inwards: f32,
+    roll_outwards: f32,
+    roll_other: f32,
+    alternate_other_finger: f32,
+    alternate_same_key: f32,
+    alternate_finger_repeat: f32,
 }
 
 #[inline(always)]
@@ -97,7 +97,7 @@ impl OxeyCombinedTrigram {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
+        weight: f32,
         counts: &mut TrigramTypeCounts,
     ) {
         let f1 = k1.key.finger;
@@ -132,7 +132,7 @@ impl OxeyCombinedTrigram {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
+        weight: f32,
         counts: &mut TrigramTypeCounts,
     ) {
         let (kr1, kr2) = if k1.key.hand == k2.key.hand {
@@ -161,7 +161,7 @@ impl OxeyCombinedTrigram {
         k1: &LayerKey,
         _k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
+        weight: f32,
         counts: &mut TrigramTypeCounts,
     ) {
         if k1.key.finger == k3.key.finger {
@@ -181,11 +181,11 @@ impl TrigramMetric for OxeyCombinedTrigram {
 
     fn total_cost(
         &self,
-        trigrams: &[((&LayerKey, &LayerKey, &LayerKey), f64)],
+        trigrams: &[((&LayerKey, &LayerKey, &LayerKey), f32)],
         // total_weight is optional for performance reasons (it can be computed from trigrams)
-        _total_weight: Option<f64>,
+        _total_weight: Option<f32>,
         _layout: &Layout,
-    ) -> (f64, Option<String>) {
+    ) -> (f32, Option<String>) {
         let mut counts = TrigramTypeCounts::default();
 
         trigrams.iter().for_each(|((k1, k2, k3), weight)| {

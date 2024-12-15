@@ -11,11 +11,11 @@ use keyboard_layout::layout::{LayerKey, LayerKeyIndex, LayerModifiers, Layout};
 // Before passing the resulting LayerKey-based ngrams as a result, smaller LayerKeyIndex-based
 // ones are used because they are smaller than a reference (u16 vs usize) and yield better
 // hashing performance.
-type UnigramIndices = AHashMap<LayerKeyIndex, f64>;
-type UnigramIndicesVec = Vec<(LayerKeyIndex, f64)>;
+type UnigramIndices = AHashMap<LayerKeyIndex, f32>;
+type UnigramIndicesVec = Vec<(LayerKeyIndex, f32)>;
 
 /// Turns the [`Unigrams`]'s characters into their indices, returning a [`UnigramIndicesVec`].
-fn map_unigrams(unigrams: &Unigrams, layout: &Layout) -> (UnigramIndicesVec, f64) {
+fn map_unigrams(unigrams: &Unigrams, layout: &Layout) -> (UnigramIndicesVec, f32) {
     let mut not_found_weight = 0.0;
     let mut unigrams_vec = Vec::with_capacity(unigrams.grams.len());
 
@@ -53,7 +53,7 @@ impl OnDemandUnigramMapper {
     }
 
     /// For a given [`Layout`] generate [`LayerKeyIndex`]-based unigrams, optionally resolving modifiers for higer-layer symbols.
-    pub fn layerkey_indices(&self, unigrams: &Unigrams, layout: &Layout) -> (UnigramIndices, f64) {
+    pub fn layerkey_indices(&self, unigrams: &Unigrams, layout: &Layout) -> (UnigramIndices, f32) {
         let (mut unigram_keys_vec, not_found_weight) = map_unigrams(unigrams, layout);
 
         if layout.has_one_shot_layers() {
@@ -73,7 +73,7 @@ impl OnDemandUnigramMapper {
     pub fn get_layerkeys<'s>(
         unigrams: &UnigramIndices,
         layout: &'s Layout,
-    ) -> Vec<(&'s LayerKey, f64)> {
+    ) -> Vec<(&'s LayerKey, f32)> {
         unigrams
             .iter()
             .map(|(k1, w)| (layout.get_layerkey(k1), *w))

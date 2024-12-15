@@ -26,14 +26,14 @@ pub struct IncreaseCommonNgramsConfig {
     /// Whether to increase the weight of common ngrams even further.
     pub enabled: bool,
     /// The critical fraction above which a ngram's weight will be increased.
-    pub critical_fraction: f64,
+    pub critical_fraction: f32,
     /// The slope with which the ngram's weight will be increased.
     /// The increment is performed linearly starting from the critical fraction,
     /// i.e. a ngram with weight equal the critical fraction is actually not affected.
-    pub factor: f64,
+    pub factor: f32,
     /// A minimum total weight (of all ngrams) that needs to be achieved. Otherwise no
     /// increment takes place.
-    pub total_weight_threshold: f64,
+    pub total_weight_threshold: f32,
 }
 
 impl Default for IncreaseCommonNgramsConfig {
@@ -48,14 +48,14 @@ impl Default for IncreaseCommonNgramsConfig {
 }
 
 pub fn increase_common_ngrams<T>(
-    symbol_weights: &mut AHashMap<T, f64>,
+    symbol_weights: &mut AHashMap<T, f32>,
     config: &IncreaseCommonNgramsConfig,
 ) {
     if !config.enabled {
         return;
     }
 
-    let total_weight: f64 = symbol_weights.values().sum();
+    let total_weight: f32 = symbol_weights.values().sum();
     let critical_point = config.critical_fraction * total_weight;
 
     symbol_weights.values_mut().for_each(|weight| {
@@ -68,7 +68,7 @@ pub fn increase_common_ngrams<T>(
 /// Holds a hashmap of unigrams (single chars) with corresponding frequency (here often called "weight").
 #[derive(Clone, Debug)]
 pub struct Unigrams {
-    pub grams: AHashMap<char, f64>,
+    pub grams: AHashMap<char, f32>,
 }
 
 fn process_special_characters(s: &str) -> String {
@@ -98,7 +98,7 @@ impl Unigrams {
         let mut grams = AHashMap::default();
         for line in data.lines() {
             let mut parts = line.trim_start().splitn(2, ' ');
-            let weight: f64 = parts.next().unwrap().parse().unwrap();
+            let weight: f32 = parts.next().unwrap().parse().unwrap();
             let unigram = parts.next().unwrap();
             let unigram = process_special_characters(unigram);
             let chars: Vec<char> = unigram.chars().collect();
@@ -119,18 +119,18 @@ impl Unigrams {
     }
 
     /// Total weight of all combined unigrams
-    pub fn total_weight(&self) -> f64 {
+    pub fn total_weight(&self) -> f32 {
         self.grams.values().sum()
     }
 
     /// Return a reduced set of the unigrams containing only the most common unigrams up to a
     /// given combined fraction.
-    pub fn tops(&self, fraction: f64) -> Self {
+    pub fn tops(&self, fraction: f32) -> Self {
         let target_weight = fraction * self.total_weight();
         let mut total_weight = 0.0;
-        let mut sorted_grams: Vec<(char, f64)> = self.grams.clone().into_iter().collect();
+        let mut sorted_grams: Vec<(char, f32)> = self.grams.clone().into_iter().collect();
         sorted_grams.sort_by(|(_, w1), (_, w2)| w2.partial_cmp(w1).unwrap());
-        let grams: AHashMap<char, f64> = sorted_grams
+        let grams: AHashMap<char, f32> = sorted_grams
             .iter()
             .take_while(|(_c, w)| {
                 let res = total_weight < target_weight;
@@ -151,7 +151,7 @@ impl Unigrams {
 
     // Return a reduced set of unigrams filtering out those containing a given character
     pub fn exclude_char(&self, exclude: &char) -> Self {
-        let grams: AHashMap<char, f64> = self
+        let grams: AHashMap<char, f32> = self
             .grams
             .iter()
             .filter_map(|(c, w)| if *c == *exclude { None } else { Some((*c, *w)) })
@@ -170,7 +170,7 @@ impl Unigrams {
             )
         })?;
 
-        let mut grams: Vec<(char, f64)> = self.grams.iter().map(|(c, w)| (*c, *w)).collect();
+        let mut grams: Vec<(char, f32)> = self.grams.iter().map(|(c, w)| (*c, *w)).collect();
         grams.sort_by(|(_, w1), (_, w2)| w2.partial_cmp(w1).unwrap());
 
         let file = File::create(&filename)
@@ -194,7 +194,7 @@ impl Unigrams {
 /// Holds a hashmap of bigrams (two chars) with corresponding frequency (here often called "weight").
 #[derive(Clone, Debug)]
 pub struct Bigrams {
-    pub grams: AHashMap<(char, char), f64>,
+    pub grams: AHashMap<(char, char), f32>,
 }
 
 impl Bigrams {
@@ -218,7 +218,7 @@ impl Bigrams {
         let mut grams = AHashMap::default();
         for line in data.lines() {
             let mut parts = line.trim_start().splitn(2, ' ');
-            let weight: f64 = parts.next().unwrap().parse().unwrap();
+            let weight: f32 = parts.next().unwrap().parse().unwrap();
             let bigram = parts.next().unwrap();
             let bigram = process_special_characters(bigram);
             let c: Vec<char> = bigram.chars().collect();
@@ -238,18 +238,18 @@ impl Bigrams {
     }
 
     /// Total weight of all combined bigrams
-    pub fn total_weight(&self) -> f64 {
+    pub fn total_weight(&self) -> f32 {
         self.grams.values().sum()
     }
 
     /// Return a reduced set of the bigrams containing only the most common bigrams up to a
     /// given combined fraction.
-    pub fn tops(&self, fraction: f64) -> Self {
+    pub fn tops(&self, fraction: f32) -> Self {
         let target_weight = fraction * self.total_weight();
         let mut total_weight = 0.0;
-        let mut sorted_grams: Vec<((char, char), f64)> = self.grams.clone().into_iter().collect();
+        let mut sorted_grams: Vec<((char, char), f32)> = self.grams.clone().into_iter().collect();
         sorted_grams.sort_by(|(_, w1), (_, w2)| w2.partial_cmp(w1).unwrap());
-        let grams: AHashMap<(char, char), f64> = sorted_grams
+        let grams: AHashMap<(char, char), f32> = sorted_grams
             .iter()
             .take_while(|(_c, w)| {
                 let res = total_weight < target_weight;
@@ -270,7 +270,7 @@ impl Bigrams {
 
     // Return a reduced set of bigrams filtering out those containing a given character
     pub fn exclude_char(&self, exclude: &char) -> Self {
-        let grams: AHashMap<(char, char), f64> = self
+        let grams: AHashMap<(char, char), f32> = self
             .grams
             .iter()
             .filter_map(|((c1, c2), w)| {
@@ -295,7 +295,7 @@ impl Bigrams {
             )
         })?;
 
-        let mut grams: Vec<((char, char), f64)> =
+        let mut grams: Vec<((char, char), f32)> =
             self.grams.iter().map(|(c, w)| (*c, *w)).collect();
         grams.sort_by(|(_, w1), (_, w2)| w2.partial_cmp(w1).unwrap());
 
@@ -321,7 +321,7 @@ impl Bigrams {
 /// Holds a hashmap of trigrams (three chars) with corresponding frequency (here often called "weight").
 #[derive(Clone, Debug)]
 pub struct Trigrams {
-    pub grams: AHashMap<(char, char, char), f64>,
+    pub grams: AHashMap<(char, char, char), f32>,
 }
 
 impl Trigrams {
@@ -348,7 +348,7 @@ impl Trigrams {
         let mut grams = AHashMap::default();
         for line in data.lines() {
             let mut parts = line.trim_start().splitn(2, ' ');
-            let weight: f64 = parts.next().unwrap().parse().unwrap();
+            let weight: f32 = parts.next().unwrap().parse().unwrap();
             let trigram = parts.next().unwrap();
             let trigram = process_special_characters(trigram);
             let c: Vec<char> = trigram.chars().collect();
@@ -368,19 +368,19 @@ impl Trigrams {
     }
 
     /// Total weight of all combined trigrams
-    pub fn total_weight(&self) -> f64 {
+    pub fn total_weight(&self) -> f32 {
         self.grams.values().sum()
     }
 
     /// Return a reduced set of the trigrams containing only the most common trigrams up to a
     /// given combined fraction.
-    pub fn tops(&self, fraction: f64) -> Self {
+    pub fn tops(&self, fraction: f32) -> Self {
         let target_weight = fraction * self.total_weight();
         let mut total_weight = 0.0;
-        let mut sorted_grams: Vec<((char, char, char), f64)> =
+        let mut sorted_grams: Vec<((char, char, char), f32)> =
             self.grams.clone().into_iter().collect();
         sorted_grams.sort_by(|(_, w1), (_, w2)| w2.partial_cmp(w1).unwrap());
-        let grams: AHashMap<(char, char, char), f64> = sorted_grams
+        let grams: AHashMap<(char, char, char), f32> = sorted_grams
             .iter()
             .take_while(|(_c, w)| {
                 let res = total_weight < target_weight;
@@ -401,7 +401,7 @@ impl Trigrams {
 
     // Return a reduced set of trigrams filtering out those containing a given character
     pub fn exclude_char(&self, exclude: &char) -> Self {
-        let grams: AHashMap<(char, char, char), f64> = self
+        let grams: AHashMap<(char, char, char), f32> = self
             .grams
             .iter()
             .filter_map(|((c1, c2, c3), w)| {
@@ -426,7 +426,7 @@ impl Trigrams {
             )
         })?;
 
-        let mut grams: Vec<((char, char, char), f64)> =
+        let mut grams: Vec<((char, char, char), f32)> =
             self.grams.iter().map(|(c, w)| (*c, *w)).collect();
         grams.sort_by(|(_, w1), (_, w2)| w2.partial_cmp(w1).unwrap());
 

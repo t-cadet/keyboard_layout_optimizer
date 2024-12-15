@@ -18,14 +18,14 @@ pub struct MatrixPosition(
 #[derive(Clone, Copy, Deserialize, PartialEq, Debug)]
 pub struct Position(
     /// Horizontal positioning
-    pub f64,
+    pub f32,
     /// Vertical positioning
-    pub f64,
+    pub f32,
 );
 
 impl Position {
     #[inline(always)]
-    pub fn distance(&self, other: &Self) -> f64 {
+    pub fn distance(&self, other: &Self) -> f32 {
         let dx = self.0 - other.0;
         let dy = self.1 - other.1;
 
@@ -306,7 +306,7 @@ pub struct Key {
     pub symmetry_index: u8,
 
     /// Cost value specifying how uncomfortable it is to reach/press the key
-    pub cost: f64,
+    pub cost: f32,
 
     /// How strongly does the hand need to move away from the home row (start position) horizontally and vertically
     pub unbalancing: Position,

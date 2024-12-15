@@ -40,7 +40,7 @@ struct Options {
 
     /// Set the initial temperature (Will be overwritten by --greedy)
     #[clap(long)]
-    init_temp: Option<f64>,
+    init_temp: Option<f32>,
 
     /// Set the init_temp to 0.0, turning the Simulated Annealing algorithm into a greedy one
     #[clap(short, long)]
@@ -115,7 +115,7 @@ fn main() {
         env::set_var("SHOW_WORST", "false");
     };
 
-    let final_results: Cache<f64> = Cache::new();
+    let final_results: Cache<f32> = Cache::new();
 
     // Handle Ctrl+C
     let cloned_final_results = final_results.clone();
@@ -157,7 +157,7 @@ fn main() {
         )
     });
     if options.greedy {
-        optimization_params.init_temp = Some(f64::MIN_POSITIVE);
+        optimization_params.init_temp = Some(f32::MIN_POSITIVE);
     } else if options.init_temp.is_some() {
         optimization_params.init_temp = options.init_temp;
     }
@@ -170,7 +170,7 @@ fn main() {
     let layout_iterator = LayoutIterator::new(&layouts, options.run_forever);
     let start_from_layout = !start_layouts.is_empty();
 
-    let cache: Option<Cache<f64>> = match !options.no_cache_results {
+    let cache: Option<Cache<f32>> = match !options.no_cache_results {
         true => Some(Cache::new()),
         false => None,
     };
@@ -212,7 +212,7 @@ fn main() {
 
             // Plot some information regarding the layout.
             println!(
-                "{} {}\n\n{}\n\n{}\n{}\n{}\n\n{}\n",
+                "{} {}\n\n{}\n\n{}\n{}\n{:4.4}\n\n{}\n",
                 format!("{}:", process_id).yellow().bold(),
                 "Final result:".green().bold(),
                 layout,
@@ -229,7 +229,7 @@ fn main() {
 
             // Publish to webservice.
             let o = &options.publishing_options;
-            if o.publish_as.is_some() && cost < o.publish_if_cost_below.unwrap_or(f64::INFINITY) {
+            if o.publish_as.is_some() && cost < o.publish_if_cost_below.unwrap_or(f32::INFINITY) {
                 common::publish_to_webservice(
                     &layout_str,
                     o.publish_as.as_ref().unwrap(),

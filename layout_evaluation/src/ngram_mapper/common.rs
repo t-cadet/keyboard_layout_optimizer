@@ -9,12 +9,12 @@ use std::{cmp::Eq, hash::Hash, slice};
 pub struct TakeOneLayerKey<'a> {
     base_key: LayerKeyIndex,
     modifiers: &'a [LayerKeyIndex],
-    weight: f64,
+    weight: f32,
     iter: Option<slice::Iter<'a, LayerKeyIndex>>,
 }
 
 impl<'a> Iterator for TakeOneLayerKey<'a> {
-    type Item = (LayerKeyIndex, f64);
+    type Item = (LayerKeyIndex, f32);
 
     fn next(&mut self) -> Option<Self::Item> {
         match &mut self.iter {
@@ -28,7 +28,7 @@ impl<'a> Iterator for TakeOneLayerKey<'a> {
 }
 
 impl<'a> TakeOneLayerKey<'a> {
-    pub fn new(base_key: LayerKeyIndex, modifiers: &'a [LayerKeyIndex], weight: f64) -> Self {
+    pub fn new(base_key: LayerKeyIndex, modifiers: &'a [LayerKeyIndex], weight: f32) -> Self {
         Self {
             base_key,
             modifiers,
@@ -44,9 +44,9 @@ impl<'a> TakeOneLayerKey<'a> {
 // pub fn take_one_layerkey(
 //     base_key: LayerKeyIndex,
 //     modifiers: &[LayerKeyIndex],
-//     weight: f64,
-// ) -> ArrayVec<[(LayerKeyIndex, f64); 3]> {
-//     let mut res = ArrayVec::<[(LayerKeyIndex, f64); 3]>::new();
+//     weight: f32,
+// ) -> ArrayVec<[(LayerKeyIndex, f32); 3]> {
+//     let mut res = ArrayVec::<[(LayerKeyIndex, f32); 3]>::new();
 //     res.push((base_key, weight));
 
 //     modifiers.iter().for_each(|m| {
@@ -62,8 +62,8 @@ impl<'a> TakeOneLayerKey<'a> {
 pub struct TakeTwoLayerKey<'a> {
     base_key: LayerKeyIndex,
     modifiers: &'a [LayerKeyIndex],
-    weight: f64,
-    same_key_mod_factor: f64,
+    weight: f32,
+    same_key_mod_factor: f32,
     iter_inner: Option<slice::Iter<'a, LayerKeyIndex>>,
     state_inner: Option<LayerKeyIndex>,
     inner_variant: u8,
@@ -72,7 +72,7 @@ pub struct TakeTwoLayerKey<'a> {
 }
 
 impl<'a> Iterator for TakeTwoLayerKey<'a> {
-    type Item = ((LayerKeyIndex, LayerKeyIndex), f64);
+    type Item = ((LayerKeyIndex, LayerKeyIndex), f32);
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.iter_outer.is_none() {
@@ -131,8 +131,8 @@ impl<'a> TakeTwoLayerKey<'a> {
     pub fn new(
         base_key: LayerKeyIndex,
         modifiers: &'a [LayerKeyIndex],
-        weight: f64,
-        same_key_mod_factor: f64,
+        weight: f32,
+        same_key_mod_factor: f32,
     ) -> Self {
         Self {
             base_key,
@@ -153,10 +153,10 @@ impl<'a> TakeTwoLayerKey<'a> {
 // pub fn take_two_layerkey(
 //     base_key: LayerKeyIndex,
 //     modifiers: &[LayerKeyIndex],
-//     weight: f64,
-//     same_key_mod_adjustment: f64,
-// ) -> ArrayVec<[((LayerKeyIndex, LayerKeyIndex), f64); 4]> {
-//     let mut res = ArrayVec::<[((LayerKeyIndex, LayerKeyIndex), f64); 4]>::new();
+//     weight: f32,
+//     same_key_mod_adjustment: f32,
+// ) -> ArrayVec<[((LayerKeyIndex, LayerKeyIndex), f32); 4]> {
+//     let mut res = ArrayVec::<[((LayerKeyIndex, LayerKeyIndex), f32); 4]>::new();
 
 //     modifiers.iter().enumerate().for_each(|(i, m1)| {
 //         res.push(((*m1, base_key), weight));
@@ -178,8 +178,8 @@ impl<'a> TakeTwoLayerKey<'a> {
 pub struct TakeThreeLayerKey<'a> {
     base_key: LayerKeyIndex,
     modifiers: &'a [LayerKeyIndex],
-    weight: f64,
-    same_key_mod_factor: f64,
+    weight: f32,
+    same_key_mod_factor: f32,
     iter_inner: Option<slice::Iter<'a, LayerKeyIndex>>,
     state_inner: Option<LayerKeyIndex>,
     inner_variant: u8,
@@ -191,7 +191,7 @@ pub struct TakeThreeLayerKey<'a> {
 }
 
 impl<'a> Iterator for TakeThreeLayerKey<'a> {
-    type Item = ((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f64);
+    type Item = ((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f32);
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.iter_outer.is_none() {
@@ -356,8 +356,8 @@ impl<'a> TakeThreeLayerKey<'a> {
     pub fn new(
         base_key: LayerKeyIndex,
         modifiers: &'a [LayerKeyIndex],
-        weight: f64,
-        same_key_mod_factor: f64,
+        weight: f32,
+        same_key_mod_factor: f32,
     ) -> Self {
         Self {
             base_key,
@@ -381,10 +381,10 @@ impl<'a> TakeThreeLayerKey<'a> {
 // pub fn take_three_layerkey(
 //     base_key: LayerKeyIndex,
 //     modifiers: &[LayerKeyIndex],
-//     weight: f64,
-//     same_key_mod_adjustment: f64,
-// ) -> ArrayVec<[((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f64); 18]> {
-//     let mut res = ArrayVec::<[((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f64); 18]>::new();
+//     weight: f32,
+//     same_key_mod_adjustment: f32,
+// ) -> ArrayVec<[((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f32); 18]> {
+//     let mut res = ArrayVec::<[((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f32); 18]>::new();
 
 //     modifiers.iter().enumerate().for_each(|(i, m1)| {
 //         modifiers.iter().skip(i + 1).enumerate().for_each(|(j, m2)| {
@@ -429,12 +429,12 @@ impl<'a> TakeThreeLayerKey<'a> {
 pub trait NgramMap<Ngram: Eq + Hash> {
     /// Adds the ngram to the HashMap if it does not already exist.
     /// If it does exist, simply add its weight to the preexisting weight.
-    fn insert_or_add_weight(&mut self, k: Ngram, w: f64);
+    fn insert_or_add_weight(&mut self, k: Ngram, w: f32);
 }
 
-impl<Ngram: Eq + Hash> NgramMap<Ngram> for AHashMap<Ngram, f64> {
+impl<Ngram: Eq + Hash> NgramMap<Ngram> for AHashMap<Ngram, f32> {
     #[inline(always)]
-    fn insert_or_add_weight(&mut self, k: Ngram, w: f64) {
+    fn insert_or_add_weight(&mut self, k: Ngram, w: f32) {
         *self.entry(k).or_insert(0.0) += w;
     }
 }

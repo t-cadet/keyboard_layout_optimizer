@@ -11,15 +11,15 @@ use keyboard_layout::layout::{LayerKey, LayerKeyIndex, LayerModifiers, Layout};
 // Before passing the resulting LayerKey-based ngrams as a result, smaller LayerKeyIndex-based
 // ones are used because they are smaller than a reference (u16 vs usize) and yield better
 // hashing performance.
-pub type TrigramIndices = AHashMap<(LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f64>;
-type TrigramIndicesVec = Vec<((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f64)>;
+pub type TrigramIndices = AHashMap<(LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f32>;
+type TrigramIndicesVec = Vec<((LayerKeyIndex, LayerKeyIndex, LayerKeyIndex), f32)>;
 
 /// Turns the [`Trigrams`]'s characters into their indices, returning a [`TrigramIndicesVec`].
 fn map_trigrams(
     trigrams: &Trigrams,
     layout: &Layout,
     exclude_line_breaks: bool,
-) -> (TrigramIndicesVec, f64) {
+) -> (TrigramIndicesVec, f32) {
     let mut not_found_weight = 0.0;
     let mut trigrams_vec = Vec::with_capacity(trigrams.grams.len());
 
@@ -85,7 +85,7 @@ impl OnDemandTrigramMapper {
         trigrams: &Trigrams,
         layout: &Layout,
         exclude_line_breaks: bool,
-    ) -> (TrigramIndices, f64) {
+    ) -> (TrigramIndices, f32) {
         let (mut trigram_keys_vec, not_found_weight) =
             map_trigrams(trigrams, layout, exclude_line_breaks);
 
@@ -107,7 +107,7 @@ impl OnDemandTrigramMapper {
     pub fn get_filtered_layerkeys<'s>(
         trigrams: &TrigramIndices,
         layout: &'s Layout,
-    ) -> Vec<((&'s LayerKey, &'s LayerKey, &'s LayerKey), f64)> {
+    ) -> Vec<((&'s LayerKey, &'s LayerKey, &'s LayerKey), f32)> {
         let mut layerkeys = Vec::with_capacity(trigrams.len());
 
         layerkeys.extend(trigrams.iter().filter_map(|((idx1, idx2, idx3), w)| {

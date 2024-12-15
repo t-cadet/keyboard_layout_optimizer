@@ -35,7 +35,7 @@ impl SimilarLetterGroups {
 
 /// Compares how many values of [data] are not equal to other values of [data].
 /// More differences result in a higher cost.
-fn costs<T: PartialEq>(data: &[T]) -> f64 {
+fn costs<T: PartialEq>(data: &[T]) -> f32 {
     if data.is_empty() {
         return 0.0;
     }
@@ -50,7 +50,7 @@ fn costs<T: PartialEq>(data: &[T]) -> f64 {
         }
     }
 
-    ((cost / n) as f64).ln_1p()
+    ((cost / n) as f32).ln_1p()
 }
 
 impl LayoutMetric for SimilarLetterGroups {
@@ -58,7 +58,7 @@ impl LayoutMetric for SimilarLetterGroups {
         "Similar Letter-Groups"
     }
 
-    fn total_cost(&self, layout: &Layout) -> (f64, Option<String>) {
+    fn total_cost(&self, layout: &Layout) -> (f32, Option<String>) {
         let mut cost = 0.0;
 
         for (s1, s2) in &self.letter_group_pairs {

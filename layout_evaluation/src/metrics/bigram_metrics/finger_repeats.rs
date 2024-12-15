@@ -16,20 +16,20 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
-    pub finger_factors: AHashMap<Finger, f64>,
-    pub stretch_factor: f64,
-    pub curl_factor: f64,
-    pub lateral_factor: f64,
-    pub same_key_offset: f64,
+    pub finger_factors: AHashMap<Finger, f32>,
+    pub stretch_factor: f32,
+    pub curl_factor: f32,
+    pub lateral_factor: f32,
+    pub same_key_offset: f32,
 }
 
 #[derive(Clone, Debug)]
 pub struct FingerRepeats {
-    finger_factors: FingerMap<f64>,
-    stretch_factor: f64,
-    curl_factor: f64,
-    lateral_factor: f64,
-    same_key_offset: f64,
+    finger_factors: FingerMap<f32>,
+    stretch_factor: f32,
+    curl_factor: f32,
+    lateral_factor: f32,
+    same_key_offset: f32,
 }
 
 impl FingerRepeats {
@@ -54,10 +54,10 @@ impl BigramMetric for FingerRepeats {
         &self,
         k1: &LayerKey,
         k2: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         if (k1 == k2 && k1.is_modifier.is_some())
             || k1.key.hand != k2.key.hand
             || k1.key.finger != k2.key.finger
@@ -83,14 +83,14 @@ impl BigramMetric for FingerRepeats {
         };
 
         let dist_in_line = if is_thumb {
-            pos1.0.abs_diff(pos2.0) as f64
+            pos1.0.abs_diff(pos2.0) as f32
         } else {
-            pos1.1.abs_diff(pos2.1) as f64
+            pos1.1.abs_diff(pos2.1) as f32
         };
         let dist_lateral = if is_thumb {
-            pos1.1.abs_diff(pos2.1) as f64
+            pos1.1.abs_diff(pos2.1) as f32
         } else {
-            pos1.0.abs_diff(pos2.0) as f64
+            pos1.0.abs_diff(pos2.0) as f32
         };
 
         let direction_factor = if (is_thumb && inwards) || (!is_thumb && upwards) {

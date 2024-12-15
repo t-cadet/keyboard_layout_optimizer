@@ -21,21 +21,21 @@ pub trait UnigramMetric: Send + Sync + UnigramMetricClone + fmt::Debug {
     fn individual_cost(
         &self,
         _key1: &LayerKey,
-        _weight: f64,
-        _total_weight: f64,
+        _weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         None
     }
 
     /// Compute the total cost for the metric.
     fn total_cost(
         &self,
-        unigrams: &[(&LayerKey, f64)],
+        unigrams: &[(&LayerKey, f32)],
         // total_weight is optional for performance reasons (it can be computed from unigrams)
-        total_weight: Option<f64>,
+        total_weight: Option<f32>,
         layout: &Layout,
-    ) -> (f64, Option<String>) {
+    ) -> (f32, Option<String>) {
         let show_worst: bool = env::var("SHOW_WORST")
             .ok()
             .and_then(|s| s.parse().ok())
@@ -93,7 +93,7 @@ pub trait UnigramMetric: Send + Sync + UnigramMetricClone + fmt::Debug {
 
             (total_cost, msg)
         } else {
-            let total_cost: f64 = cost_iter.map(|(_, _, c)| c).sum();
+            let total_cost: f32 = cost_iter.map(|(_, _, c)| c).sum();
 
             (total_cost, None)
         };

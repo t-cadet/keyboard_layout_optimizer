@@ -17,7 +17,7 @@ pub struct Parameters {
 
 #[derive(Clone, Debug)]
 pub struct KLAHomeKeyWords {
-    words: AHashMap<String, (AHashSet<char>, usize, f64)>, // set of chars, number of unique chars, weight
+    words: AHashMap<String, (AHashSet<char>, usize, f32)>, // set of chars, number of unique chars, weight
     home_row_positions: AHashSet<MatrixPosition>,
 }
 
@@ -25,7 +25,7 @@ pub struct KLAHomeKeyWords {
 struct WordRecord {
     _row: usize,
     word: String,
-    weight: f64,
+    weight: f32,
 }
 
 impl KLAHomeKeyWords {
@@ -62,7 +62,7 @@ impl LayoutMetric for KLAHomeKeyWords {
         "Home Key Words"
     }
 
-    fn total_cost(&self, layout: &Layout) -> (f64, Option<String>) {
+    fn total_cost(&self, layout: &Layout) -> (f32, Option<String>) {
         let mut found_weight = 0.0;
         let mut found_words = 0;
 
@@ -80,13 +80,13 @@ impl LayoutMetric for KLAHomeKeyWords {
 
         self.words.iter().for_each(|(_word, (chars, len, weight))| {
             if home_row_chars.is_superset(chars) {
-                found_weight += *len as f64 * *weight;
+                found_weight += *len as f32 * *weight;
                 found_words += 1;
             }
         });
 
-        let total_words: f64 = self.words.len() as f64;
-        let total_weight: f64 = self
+        let total_words: f32 = self.words.len() as f32;
+        let total_weight: f32 = self
             .words
             .iter()
             .map(|(_word, (_chars, _len, weight))| *weight)

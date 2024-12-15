@@ -15,10 +15,10 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct LetterPairsRatings {
-    pub same_key_cost: f64,
-    pub neighboring_cost: f64,
-    pub same_column_cost: f64,
-    pub symmetric_cost: f64,
+    pub same_key_cost: f32,
+    pub neighboring_cost: f32,
+    pub same_column_cost: f32,
+    pub symmetric_cost: f32,
     pub letter_pairs: Vec<(char, char)>,
 }
 
@@ -45,7 +45,7 @@ impl LayoutMetric for SimilarLetters {
         "Similar Letters"
     }
 
-    fn total_cost(&self, layout: &Layout) -> (f64, Option<String>) {
+    fn total_cost(&self, layout: &Layout) -> (f32, Option<String>) {
         let mut cost = 0.0;
         let mut bad_pairs: Vec<String> = Vec::new();
 

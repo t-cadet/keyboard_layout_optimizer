@@ -18,22 +18,22 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
-    factor_with_direction_change: f64,
-    factor_without_direction_change: f64,
-    factor_contains_index: f64,
-    factor_same_key: f64,
-    factor_contains_finger_repeat: f64,
-    factor_same_key_start_end: f64,
+    factor_with_direction_change: f32,
+    factor_without_direction_change: f32,
+    factor_contains_index: f32,
+    factor_same_key: f32,
+    factor_contains_finger_repeat: f32,
+    factor_same_key_start_end: f32,
 }
 
 #[derive(Clone, Debug)]
 pub struct NoHandswitchInTrigram {
-    factor_with_direction_change: f64,
-    factor_without_direction_change: f64,
-    factor_contains_index: f64,
-    factor_same_key: f64,
-    factor_contains_finger_repeat: f64,
-    factor_same_key_start_end: f64,
+    factor_with_direction_change: f32,
+    factor_without_direction_change: f32,
+    factor_contains_index: f32,
+    factor_same_key: f32,
+    factor_contains_finger_repeat: f32,
+    factor_same_key_start_end: f32,
 }
 
 impl NoHandswitchInTrigram {
@@ -60,10 +60,10 @@ impl TrigramMetric for NoHandswitchInTrigram {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         let hand1 = k1.key.hand;
         let hand2 = k2.key.hand;
         let hand3 = k3.key.hand;

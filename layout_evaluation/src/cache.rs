@@ -62,7 +62,7 @@ impl<T: Clone + fmt::Display + PartialOrd> Cache<T> {
                     ));
                     break;
                 }
-                let result_line = format!("{} ({:.1})", l, cost);
+                let result_line = format!("{} ({:.4})", l, cost);
                 if current_layout_str.is_some() && current_layout_str.unwrap() == l {
                     output_string.push_str(&format!(
                         "\n{:>width$}. {} (current)",

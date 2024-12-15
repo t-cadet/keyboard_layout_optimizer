@@ -10,11 +10,11 @@ use std::{fmt, slice};
 #[serde(rename_all = "snake_case")]
 pub enum NormalizationType {
     /// Divide the metric result's cost value by a fixed value.
-    Fixed(f64),
+    Fixed(f32),
     /// Divide the metric result's cost value by the sum of the ngram weights that could be mapped by the layout and a given fixed value.
-    WeightFound(f64),
+    WeightFound(f32),
     /// Divide the metric result's cost value by the sum of all ngram weights and a given fixed value.
-    WeightAll(f64),
+    WeightAll(f32),
 }
 
 /// Specify which data a metric operates on.
@@ -32,11 +32,11 @@ pub struct MetricResult {
     /// Name of the metric.
     pub name: String,
     /// Resulting total cost value (not normalized).
-    pub cost: f64,
+    pub cost: f32,
     /// An optional message that may contain additional details.
     pub message: Option<String>,
     /// The weight that shall be used when aggregating all metrics.
-    pub weight: f64,
+    pub weight: f32,
     /// The normalization type to apply.
     pub normalization: NormalizationType,
 }
@@ -46,8 +46,8 @@ pub struct MetricResult {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct NormalizedMetricResult {
     pub core: MetricResult,
-    pub weighted_cost: f64,
-    pub unweighted_cost: f64,
+    pub weighted_cost: f32,
+    pub unweighted_cost: f32,
 }
 
 /// Describes a list of metric evaluation results of the same [`MetricType`].
@@ -56,9 +56,9 @@ pub struct MetricResults {
     /// Type of the metric, i.e. which data the metrics operated on.
     pub metric_type: MetricType,
     /// The total amount of weight (ngram frequencies) from ngrams that could be mapped by the layout.
-    pub found_weight: f64,
+    pub found_weight: f32,
     /// The total amount of weight (ngram frequencies) from ngrams that contained symbols that coult not be mapped by the layout.
-    pub not_found_weight: f64,
+    pub not_found_weight: f32,
     /// A list of the individual metric results.
     pub metric_costs: Vec<NormalizedMetricResult>,
 }
@@ -91,7 +91,7 @@ impl fmt::Display for MetricResults {
 }
 
 impl MetricResults {
-    pub fn new(metric_type: MetricType, found_weight: f64, not_found_weight: f64) -> Self {
+    pub fn new(metric_type: MetricType, found_weight: f32, not_found_weight: f32) -> Self {
         Self {
             metric_type,
             found_weight,
@@ -111,7 +111,7 @@ impl MetricResults {
     }
 
     /// Normalize a metric's cost value with given normalization strategy.
-    fn normalize_value(&self, val: f64, normalization_type: &NormalizationType) -> f64 {
+    fn normalize_value(&self, val: f32, normalization_type: &NormalizationType) -> f32 {
         let mut res = match normalization_type {
             NormalizationType::Fixed(t) => val / t,
             NormalizationType::WeightFound(t) => val / (t * self.found_weight),
@@ -134,7 +134,7 @@ impl MetricResults {
         metric_cost: &MetricResult,
         normalize: bool,
         weight: bool,
-    ) -> f64 {
+    ) -> f32 {
         let cost = match weight {
             true => metric_cost.weight * metric_cost.cost,
             false => metric_cost.cost,
@@ -147,19 +147,19 @@ impl MetricResults {
     }
 
     /// Helper function for aggregating all individual metrics' results to a total value.
-    fn aggregate_metric_costs(&self, normalize: bool, weight: bool) -> f64 {
+    fn aggregate_metric_costs(&self, normalize: bool, weight: bool) -> f32 {
         self.metric_costs.iter().fold(0.0, |acc, metric_cost| {
             acc + self.compute_metric_cost(&metric_cost.core, normalize, weight)
         })
     }
 
     /// Compute the weighted and normalized total cost of all metrics.
-    pub fn total_cost(&self) -> f64 {
+    pub fn total_cost(&self) -> f32 {
         self.aggregate_metric_costs(true, true)
     }
 
     /// Compute the weighted but not normalized total cost of all metrics.
-    pub fn unnormalized_total_cost(&self) -> f64 {
+    pub fn unnormalized_total_cost(&self) -> f32 {
         self.aggregate_metric_costs(false, true)
     }
 }
@@ -181,7 +181,7 @@ impl fmt::Display for EvaluationResult {
         writeln!(
             f,
             "Cost: {} (optimization score: {})",
-            format!("{:.2}", self.total_cost()).green().bold(),
+            format!("{:.4}", self.total_cost()).green().bold(),
             self.optimization_score()
         )?;
 
@@ -197,7 +197,7 @@ impl EvaluationResult {
         }
     }
 
-    pub fn total_cost(&self) -> f64 {
+    pub fn total_cost(&self) -> f32 {
         let mut cost = 0.0;
         self.individual_results
             .iter()

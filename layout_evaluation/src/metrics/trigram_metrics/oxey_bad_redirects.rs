@@ -52,10 +52,10 @@ impl TrigramMetric for OxeyBadRedirects {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         let h1 = k1.key.hand;
         let h2 = k2.key.hand;
         let h3 = k3.key.hand;

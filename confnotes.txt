@@ -1,0 +1,4 @@
+temp 1 key 3 not too bad
+temp 1 key 2 or temp 0.5 key 2 is pretty good
+temp 0.5 key 1 is good
+temp 0.175 key 1 is good

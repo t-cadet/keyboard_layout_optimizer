@@ -17,7 +17,7 @@ pub struct SplitModifiersConfig {
     /// Whether to split ngrams with higher-layer symbols into multiple base-layer ones.
     pub enabled: bool,
     /// Weight factor for generated ngrams that involve two modifiers for the same key.
-    pub same_key_mod_factor: f64,
+    pub same_key_mod_factor: f32,
 }
 
 /// Configuration parameters for the [`OnDemandNgramMapper`].

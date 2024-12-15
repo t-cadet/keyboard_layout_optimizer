@@ -28,21 +28,21 @@ pub trait BigramMetric: Send + Sync + BigramMetricClone + fmt::Debug {
         &self,
         _key1: &LayerKey,
         _key2: &LayerKey,
-        _weight: f64,
-        _total_weight: f64,
+        _weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         None
     }
 
     /// Compute the total cost for the metric.
     fn total_cost(
         &self,
-        bigrams: &[((&LayerKey, &LayerKey), f64)],
+        bigrams: &[((&LayerKey, &LayerKey), f32)],
         // total_weight is optional for performance reasons (it can be computed from bigrams).
-        total_weight: Option<f64>,
+        total_weight: Option<f32>,
         layout: &Layout,
-    ) -> (f64, Option<String>) {
+    ) -> (f32, Option<String>) {
         let show_worst: bool = env::var("SHOW_WORST")
             .ok()
             .and_then(|s| s.parse().ok())
@@ -85,7 +85,7 @@ pub trait BigramMetric: Send + Sync + BigramMetricClone + fmt::Debug {
                 },
             );
 
-            let gen_msgs = |q: DoublePriorityQueue<usize, OrderedFloat<f64>>| {
+            let gen_msgs = |q: DoublePriorityQueue<usize, OrderedFloat<f32>>| {
                 let worst_msgs: Vec<String> = q
                     .into_sorted_iter()
                     .rev()
@@ -123,7 +123,7 @@ pub trait BigramMetric: Send + Sync + BigramMetricClone + fmt::Debug {
 
             (total_cost, msg)
         } else {
-            let total_cost: f64 = cost_iter.map(|(_, _, c)| c).sum();
+            let total_cost: f32 = cost_iter.map(|(_, _, c)| c).sum();
 
             (total_cost, None)
         };

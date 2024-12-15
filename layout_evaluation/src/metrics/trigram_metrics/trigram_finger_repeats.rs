@@ -16,12 +16,12 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     // Factor applied for each lateral movement in the bigrams
-    pub factor_lateral_movement: f64,
+    pub factor_lateral_movement: f32,
 }
 
 #[derive(Clone, Debug)]
 pub struct TrigramFingerRepeats {
-    factor_lateral_movement: f64,
+    factor_lateral_movement: f32,
 }
 
 impl TrigramFingerRepeats {
@@ -43,10 +43,10 @@ impl TrigramMetric for TrigramFingerRepeats {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         let hand1 = k1.key.hand;
         let hand2 = k2.key.hand;
         let hand3 = k3.key.hand;

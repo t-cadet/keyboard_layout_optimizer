@@ -27,7 +27,7 @@ struct LayoutEvaluationDB {
     #[serde(skip_deserializing, skip_serializing_if = "Option::is_none")]
     id: Option<i32>,
     layout: String,
-    total_cost: f64,
+    total_cost: f32,
     details_json: String,
     printed: String,
     published_by: Option<String>,
@@ -38,7 +38,7 @@ struct LayoutEvaluationDB {
 #[derive(Debug, Clone, Serialize)]
 struct LayoutEvaluation {
     layout: String,
-    total_cost: f64,
+    total_cost: f32,
     published_by: Option<String>,
     details: Option<EvaluationResult>,
     printed: Option<String>,

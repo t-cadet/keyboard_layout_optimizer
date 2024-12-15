@@ -13,7 +13,7 @@ use std::{
 #[derive(Serialize)]
 struct LayoutEvaluation {
     details: EvaluationResult,
-    total_cost: f64,
+    total_cost: f32,
 }
 
 impl From<EvaluationResult> for LayoutEvaluation {
@@ -123,7 +123,7 @@ fn main() {
                 println!("Layout string (layer 1):\n{}\n", layout);
                 println!("{}", evaluation_result);
             } else {
-                println!("{} {:4.2}", layout_str, evaluation_result.total_cost());
+                println!("{} {:4.4}", layout_str, evaluation_result.total_cost());
             }
         }
     }

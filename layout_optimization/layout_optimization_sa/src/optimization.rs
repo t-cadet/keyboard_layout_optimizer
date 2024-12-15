@@ -20,7 +20,7 @@ use argmin::{
 #[derive(Deserialize, Debug)]
 pub struct Parameters {
     /// Initial temperature. Gets eventually lowered down to (almost) zero during optimization.
-    pub init_temp: Option<f64>,
+    pub init_temp: Option<f32>,
 
     /// In each modification of the layout, swap this many key-pairs.
     pub key_switches: usize,
@@ -53,11 +53,11 @@ impl Parameters {
         Ok(serde_yaml::from_reader(f)?)
     }
     /// Makes sure that [self.init_temp] is greater than zero.
-    /// => Negative values and zero get turned into `f64::MIN_POSITIVE`.
+    /// => Negative values and zero get turned into `f32::MIN_POSITIVE`.
     pub fn correct_init_temp(&mut self) {
         if let Some(init_temp) = self.init_temp {
             let corrected_init_temp = if init_temp <= 0.0 {
-                f64::MIN_POSITIVE
+                f32::MIN_POSITIVE
             } else {
                 init_temp
             };
@@ -71,16 +71,16 @@ pub struct AnnealingStruct {
     permutator: LayoutPermutator,
     layout_generator: Box<dyn LayoutGenerator>,
     key_switches: usize,
-    result_cache: Option<Cache<f64>>,
+    result_cache: Option<Cache<f32>>,
 }
 
 impl CostFunction for AnnealingStruct {
     type Param = Vec<usize>;
-    type Output = f64;
+    type Output = f32;
 
     /// Evaluate param (= the layout-vector).
     fn cost(&self, param: &Self::Param) -> Result<Self::Output, Error> {
-        let evaluate_layout_str = |layout_str: &str| -> f64 {
+        let evaluate_layout_str = |layout_str: &str| -> f32 {
             let l = self.layout_generator.generate(layout_str).unwrap();
             self.evaluator.evaluate_layout(&l).total_cost()
         };
@@ -99,15 +99,15 @@ impl CostFunction for AnnealingStruct {
 impl Anneal for AnnealingStruct {
     type Param = Vec<usize>;
     type Output = Vec<usize>;
-    type Float = f64;
+    type Float = f32;
 
     /// Anneal a parameter vector, slightly changing it.
-    fn anneal(&self, param: &Self::Param, _temp: f64) -> Result<Self::Output, Error> {
+    fn anneal(&self, param: &Self::Param, _temp: f32) -> Result<Self::Output, Error> {
         Ok(self.permutator.perform_n_swaps(param, self.key_switches))
     }
 }
 
-pub type SaIterState = IterState<Vec<usize>, (), (), (), f64>;
+pub type SaIterState = IterState<Vec<usize>, (), (), (), f32>;
 
 /// An observer that outputs important information in a more human-readable format than `Argmin`'s original implementation.
 struct BestObserver {
@@ -125,7 +125,7 @@ impl Observe<SaIterState> for BestObserver {
             .permutator
             .generate_string(state.best_param.as_ref().unwrap());
         log::info!(
-            "{} {} {} ({:>6.1})",
+            "{} {} {} ({:>6.4})",
             format!("{}:", self.id).yellow().bold(),
             reason,
             best_layout,
@@ -183,7 +183,7 @@ impl Observe<SaIterState> for IterationObserver {
                 }
             }
             let mut output = format!(
-                "{} {} {:>3}, {} {} ({:>6.1}), {} {} ({:>6.1}), {} {}°",
+                "{} {} {:>3}, {} {} ({:>6.4}), {} {} ({:>6.4}), {} {}°",
                 format!("{}:", self.id).yellow().bold(),
                 "n:".bold(),
                 state.iter,
@@ -213,10 +213,10 @@ impl Observe<SaIterState> for IterationObserver {
     }
 }
 
-/// Calculates the mean of a vec containing f64-values.
-fn mean(list: &[f64]) -> f64 {
-    let sum: f64 = list.iter().sum();
-    sum / (list.len() as f64)
+/// Calculates the mean of a vec containing f32-values.
+fn mean(list: &[f32]) -> f32 {
+    let sum: f32 = list.iter().sum();
+    sum / (list.len() as f32)
 }
 
 /// Calculates the [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation)
@@ -230,12 +230,12 @@ fn get_cost_sd(
     permutator: &LayoutPermutator,
     layout_generator: &Box<dyn LayoutGenerator>,
     key_pair_switches: usize,
-) -> f64 {
+) -> f32 {
     const USED_NEIGHBORS: u16 = 100;
 
     // Calculate initial temperature.
     let mut sd = 0.0;
-    let mut costs: Vec<f64> = vec![];
+    let mut costs: Vec<f32> = vec![];
     let mut current_indices = initial_indices.to_owned();
 
     for _ in 0..USED_NEIGHBORS {
@@ -246,13 +246,13 @@ fn get_cost_sd(
         costs.push(evaluation_result.total_cost());
         current_indices = permutator.perform_n_swaps(&current_indices, key_pair_switches);
     }
-    let average: f64 = mean(&costs);
+    let average: f32 = mean(&costs);
 
     for cost in &costs {
         let difference = cost - average;
         sd += difference.powi(2);
     }
-    sd /= USED_NEIGHBORS as f64;
+    sd /= USED_NEIGHBORS as f32;
     sd = sd.sqrt();
     sd
 }
@@ -268,7 +268,7 @@ pub fn optimize(
     start_with_layout: bool,
     evaluator: &Evaluator,
     log_everything: bool,
-    result_cache: Option<Cache<f64>>,
+    result_cache: Option<Cache<f32>>,
     custom_observer: Option<CustomObserver>,
 ) -> (String, Layout) {
     let pm = LayoutPermutator::new(layout_str, fixed_characters);
@@ -279,7 +279,7 @@ pub fn optimize(
     };
 
     /* // Test 10_000 Layouts to get a good default initial temperature.
-    let mut init_temp_vec: Vec<f64> = vec![];
+    let mut init_temp_vec: Vec<f32> = vec![];
     const TESTED_LAYOUT_NR: u8 = 100;
     for i in 0..TESTED_LAYOUT_NR {
         let l = pm.generate_random();
@@ -361,7 +361,7 @@ pub fn optimize(
             let iter_observer_mode = if log_everything {
                 ObserverMode::Always
             } else {
-                ObserverMode::Every(100)
+                ObserverMode::Every(250)
             };
             // Optional: Attach a observer
             executor = executor

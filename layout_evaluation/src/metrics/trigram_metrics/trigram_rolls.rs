@@ -10,17 +10,17 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     /// Factor to apply to a trigram's weight if the roll is going inwards
-    pub factor_inward: f64,
+    pub factor_inward: f32,
     /// Factor to apply to a trigram's weight if the roll is going outwards
-    pub factor_outward: f64,
+    pub factor_outward: f32,
     /// Rows to exclude for finger rolls
     pub exclude_rows: Vec<u8>,
 }
 
 #[derive(Clone, Debug)]
 pub struct TrigramRolls {
-    factor_inward: f64,
-    factor_outward: f64,
+    factor_inward: f32,
+    factor_outward: f32,
     exclude_rows: Vec<u8>,
 }
 
@@ -45,10 +45,10 @@ impl TrigramMetric for TrigramRolls {
         k1: &LayerKey,
         k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         if k1.key.hand != k2.key.hand || k2.key.hand != k3.key.hand {
             return Some(0.0);
         };

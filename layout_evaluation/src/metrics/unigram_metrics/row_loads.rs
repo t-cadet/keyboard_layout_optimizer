@@ -32,11 +32,11 @@ impl UnigramMetric for RowLoads {
 
     fn total_cost(
         &self,
-        unigrams: &[(&LayerKey, f64)],
-        _total_weight: Option<f64>,
+        unigrams: &[(&LayerKey, f32)],
+        _total_weight: Option<f32>,
         _layout: &Layout,
-    ) -> (f64, Option<String>) {
-        let mut row_load: AHashMap<u8, f64> = AHashMap::default();
+    ) -> (f32, Option<String>) {
+        let mut row_load: AHashMap<u8, f32> = AHashMap::default();
         let mut total_weight = 0.0;
         unigrams
             .iter()

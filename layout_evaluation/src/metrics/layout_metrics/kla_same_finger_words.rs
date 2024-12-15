@@ -16,14 +16,14 @@ pub struct Parameters {
 
 #[derive(Clone, Debug)]
 pub struct KLASameFingerWords {
-    words: AHashMap<String, (usize, f64)>, // (chars, number of unique chars, weight)
+    words: AHashMap<String, (usize, f32)>, // (chars, number of unique chars, weight)
 }
 
 #[derive(Debug, Deserialize)]
 struct WordRecord {
     _row: usize,
     word: String,
-    weight: f64,
+    weight: f32,
 }
 
 impl KLASameFingerWords {
@@ -55,7 +55,7 @@ impl LayoutMetric for KLASameFingerWords {
         "Same Finger Words"
     }
 
-    fn total_cost(&self, layout: &Layout) -> (f64, Option<String>) {
+    fn total_cost(&self, layout: &Layout) -> (f32, Option<String>) {
         let mut found_char_weight = 0.0;
         let mut found_words = 0;
 
@@ -80,13 +80,13 @@ impl LayoutMetric for KLASameFingerWords {
                     }
                 })
             {
-                found_char_weight += *len as f64 * *weight;
+                found_char_weight += *len as f32 * *weight;
                 found_words += 1;
             }
         });
 
-        let total_words: f64 = self.words.len() as f64;
-        let total_weight: f64 = self
+        let total_words: f32 = self.words.len() as f32;
+        let total_weight: f32 = self
             .words
             .iter()
             .map(|(_word, (_len, weight))| *weight)

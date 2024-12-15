@@ -43,10 +43,10 @@ impl TrigramMetric for OxeyDsfbs {
         k1: &LayerKey,
         _k2: &LayerKey,
         k3: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         if self.exclude_modifiers && (k1.is_modifier.is_some() || k3.is_modifier.is_some()) {
             return Some(0.0);
         }

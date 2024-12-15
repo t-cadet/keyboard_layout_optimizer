@@ -13,19 +13,19 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     pub ignore_modifiers: bool,
-    pub keyup_distance: f64,
-    pub keydown_distance: f64,
-    pub dscoring: AHashMap<Hand, AHashMap<Finger, f64>>,
-    pub hscoring: AHashMap<Hand, f64>,
+    pub keyup_distance: f32,
+    pub keydown_distance: f32,
+    pub dscoring: AHashMap<Hand, AHashMap<Finger, f32>>,
+    pub hscoring: AHashMap<Hand, f32>,
 }
 
 #[derive(Clone, Debug)]
 pub struct KLADistance {
     ignore_modifiers: bool,
-    keyup_distance: f64,
-    keydown_distance: f64,
-    dscoring: HandFingerMap<f64>,
-    hscoring: HandMap<f64>,
+    keyup_distance: f32,
+    keydown_distance: f32,
+    dscoring: HandFingerMap<f32>,
+    hscoring: HandMap<f32>,
 }
 
 impl KLADistance {
@@ -78,11 +78,11 @@ impl BigramMetric for KLADistance {
 
     fn total_cost(
         &self,
-        bigrams: &[((&LayerKey, &LayerKey), f64)],
-        _total_weight: Option<f64>,
+        bigrams: &[((&LayerKey, &LayerKey), f32)],
+        _total_weight: Option<f32>,
         layout: &Layout,
-    ) -> (f64, Option<String>) {
-        let mut finger_values: HandFingerMap<f64> = HandFingerMap::with_default(0.0);
+    ) -> (f32, Option<String>) {
+        let mut finger_values: HandFingerMap<f32> = HandFingerMap::with_default(0.0);
 
         let finger_resting_positions =
             FingerStates::with_positions(&layout.keyboard.finger_resting_positions);
@@ -161,7 +161,7 @@ impl BigramMetric for KLADistance {
 
         finger_values
             .iter_mut()
-            .zip(HandFingerMap::<f64>::keys().iter())
+            .zip(HandFingerMap::<f32>::keys().iter())
             .for_each(|(c, (hand, finger))| {
                 let fscore = self.dscoring.get(hand, finger);
                 let hscore = self.hscoring.get(hand);

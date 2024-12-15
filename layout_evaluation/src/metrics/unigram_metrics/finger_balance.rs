@@ -17,12 +17,12 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
-    pub intended_loads: AHashMap<(Hand, Finger), f64>,
+    pub intended_loads: AHashMap<(Hand, Finger), f32>,
 }
 
 #[derive(Clone, Debug)]
 pub struct FingerBalance {
-    intended_loads: AHashMap<(Hand, Finger), f64>,
+    intended_loads: AHashMap<(Hand, Finger), f32>,
 }
 
 impl FingerBalance {
@@ -48,11 +48,11 @@ impl UnigramMetric for FingerBalance {
 
     fn total_cost(
         &self,
-        unigrams: &[(&LayerKey, f64)],
-        _total_weight: Option<f64>,
+        unigrams: &[(&LayerKey, f32)],
+        _total_weight: Option<f32>,
         _layout: &Layout,
-    ) -> (f64, Option<String>) {
-        let mut finger_loads: HandFingerMap<f64> = HandFingerMap::with_default(0.0);
+    ) -> (f32, Option<String>) {
+        let mut finger_loads: HandFingerMap<f32> = HandFingerMap::with_default(0.0);
 
         // NOTE: ArneBab includes the thumb in the computation (in contrast to here). I believe that this is not helpful,
         // as it contains a large discrepancy (only one thumb is used for the spacebar) and the spacebar
@@ -63,10 +63,10 @@ impl UnigramMetric for FingerBalance {
             .for_each(|(key, weight)| {
                 *finger_loads.get_mut(&key.key.hand, &key.key.finger) += *weight;
             });
-        let total_weight: f64 = finger_loads.iter().sum();
+        let total_weight: f32 = finger_loads.iter().sum();
 
         // A version more similar to ArneBab's solution using the standard deviation
-        let fractions: Vec<f64> = self
+        let fractions: Vec<f32> = self
             .intended_loads
             .iter()
             .filter(|((_hand, finger), _intended_load)| *finger != Finger::Thumb)
@@ -83,12 +83,12 @@ impl UnigramMetric for FingerBalance {
             })
             .collect();
 
-        let mean: f64 = fractions.iter().sum::<f64>() / fractions.len() as f64;
+        let mean: f32 = fractions.iter().sum::<f32>() / fractions.len() as f32;
         let var = fractions
             .iter()
             .map(|f| (f - mean) * (f - mean))
-            .sum::<f64>()
-            / (fractions.len() - 1) as f64;
+            .sum::<f32>()
+            / (fractions.len() - 1) as f32;
 
         let message = format!(
             "Finger loads % (no thumb): {:.1} {:.1} {:.1} {:.1} - {:.1} {:.1} {:.1} {:.1}",
@@ -121,7 +121,7 @@ impl UnigramMetric for FingerBalance {
         //         );
         //         (load - intended_load).abs()
         //     })
-        //     .sum::<f64>();
+        //     .sum::<f32>();
 
         // (0.5 * diff, None)
     }

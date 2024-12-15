@@ -15,15 +15,15 @@ use ahash::AHashMap;
 // Before passing the resulting LayerKey-based ngrams as a result, smaller LayerKeyIndex-based
 // ones are used because they are smaller than a reference (u16 vs usize) and yield better
 // hashing performance.
-type BigramIndices = AHashMap<(LayerKeyIndex, LayerKeyIndex), f64>;
-type BigramIndicesVec = Vec<((LayerKeyIndex, LayerKeyIndex), f64)>;
+type BigramIndices = AHashMap<(LayerKeyIndex, LayerKeyIndex), f32>;
+type BigramIndicesVec = Vec<((LayerKeyIndex, LayerKeyIndex), f32)>;
 
 /// Turns the [`Bigrams`]'s characters into their indices, returning a [`BigramIndicesVec`].
 fn map_bigrams(
     bigrams: &Bigrams,
     layout: &Layout,
     exclude_line_breaks: bool,
-) -> (BigramIndicesVec, f64) {
+) -> (BigramIndicesVec, f32) {
     let mut not_found_weight = 0.0;
     let mut bigrams_vec: BigramIndicesVec = Vec::with_capacity(bigrams.grams.len());
 
@@ -78,7 +78,7 @@ impl OnDemandBigramMapper {
         bigrams: &Bigrams,
         layout: &Layout,
         exclude_line_breaks: bool,
-    ) -> (BigramIndices, f64) {
+    ) -> (BigramIndices, f32) {
         let (mut bigram_keys_vec, not_found_weight) =
             map_bigrams(bigrams, layout, exclude_line_breaks);
 
@@ -107,7 +107,7 @@ impl OnDemandBigramMapper {
     pub fn get_filtered_layerkeys<'s>(
         bigrams: &BigramIndices,
         layout: &'s Layout,
-    ) -> Vec<((&'s LayerKey, &'s LayerKey), f64)> {
+    ) -> Vec<((&'s LayerKey, &'s LayerKey), f32)> {
         let mut layerkeys = Vec::with_capacity(bigrams.len());
 
         layerkeys.extend(bigrams.iter().filter_map(|((idx1, idx2), w)| {

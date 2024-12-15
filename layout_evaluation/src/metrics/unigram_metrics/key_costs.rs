@@ -29,11 +29,11 @@ impl UnigramMetric for KeyCost {
     fn individual_cost(
         &self,
         key: &LayerKey,
-        weight: f64,
-        total_weight: f64,
+        weight: f32,
+        total_weight: f32,
         layout: &Layout,
-    ) -> Option<f64> {
-        let modifier_cost: f64 = key
+    ) -> Option<f32> {
+        let modifier_cost: f32 = key
             .modifiers
             .layerkey_indices()
             .iter()

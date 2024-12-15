@@ -48,7 +48,7 @@ pub struct Options {
 
     /// Only consider the top ngrams up to the given fraction
     #[clap(long)]
-    pub tops: Option<f64>,
+    pub tops: Option<f32>,
 
     /// Only consider ngrams that do not contain any of the given characters
     #[clap(long)]
@@ -77,7 +77,7 @@ pub struct PublishingOptions {
 
     /// Publish the layout only if its cost is lower (better) than this value
     #[clap(long, requires = "publish-as")]
-    pub publish_if_cost_below: Option<f64>,
+    pub publish_if_cost_below: Option<f32>,
 
     /// Publish found layout to webservice for this layout config
     #[clap(long, default_value = "standard")]

@@ -22,7 +22,7 @@ fn main() {
     let (layout_generator, evaluator) = common::init(&options.evaluation_parameters);
 
     let layout_str = "abcdefghijklmnopqrstuvwxyzäöüß,.";
-    let mut best_cost: Option<f64> = None;
+    let mut best_cost: Option<f32> = None;
     let mut best_layout: String = "".into();
 
     for _ in 0..options.number_of_samples {

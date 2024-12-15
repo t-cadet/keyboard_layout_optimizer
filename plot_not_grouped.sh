@@ -18,8 +18,8 @@ RUST_LOG=INFO ./target/release/plot \
 --grouped-layout-generator \
 -l config/keyboard/crkbd_not_grouped.yml \
 "$(cat <<- "EOF"
-😜612Z😜+S=05⌫Cst( H,naeiOQ>DYB😜;-/AEU)cf
-rl😜😜4z😜😜😜J97\😜L.m_P😜%MG*3!😜qW~😜😜😜\^@`😜TpvN[8⌦😜	#😜😜😜|]&😜😜Fgdy'😜j:uoh<😜VX😜K-?{$}"↻IbwRkx
+😜^vDK😜6;-=$😜0cts X/naeo)ZRTLB😜+SAOEU_i"
+rl😜↻zV😜😜😜😜\@😜😜qmpdP😜9'[*!4😜NFYQ😜⌦`😜😜%😜C(>j2H😜~#	😜😜😜?{}😜😜]gfyk😜5b,uh3JwG\7😜8W|&<⌫I.:1xM
 EOF
 )"
 # ~qbf$\#-i=&@wdst 	:uaeo_6"0]8-{,;/)}[lhnr

@@ -14,12 +14,12 @@ type MatrixPosition = (u8, u8);
 #[derive(Clone, Deserialize, Debug)]
 pub struct Parameters {
     pub add_mirrored: bool,
-    pub matrix_positions: AHashMap<(MatrixPosition, MatrixPosition), f64>,
+    pub matrix_positions: AHashMap<(MatrixPosition, MatrixPosition), f32>,
 }
 
 #[derive(Clone, Debug)]
 pub struct ManualBigramPenalty {
-    matrix_positions: AHashMap<(MatrixPosition, MatrixPosition), f64>,
+    matrix_positions: AHashMap<(MatrixPosition, MatrixPosition), f32>,
 }
 
 impl ManualBigramPenalty {
@@ -50,10 +50,10 @@ impl BigramMetric for ManualBigramPenalty {
         &self,
         k1: &LayerKey,
         k2: &LayerKey,
-        weight: f64,
-        _total_weight: f64,
+        weight: f32,
+        _total_weight: f32,
         _layout: &Layout,
-    ) -> Option<f64> {
+    ) -> Option<f32> {
         let x1 = k1.key.matrix_position.0;
         let y1 = k1.key.matrix_position.1;
         let x2 = k2.key.matrix_position.0;
