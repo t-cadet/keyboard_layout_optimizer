@@ -7,7 +7,13 @@
 # --run-forever \
 # "@^6-9=$*!4%(>2~#?{}😜😜😜0😜5)37😜8|&<:+1
 # --fix "$(cat << "EOF"
-# ⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙↻↻↻.)↻;/=UYVFCHLZAOEIPDRTSN`XKJBQMWG\_↻↻↻↻#?:*@$'&|^1~\{[<>]}+!-234567890%↻↻↻↻↻↻
+# ↻😜uoj↻kf
+# ⇙wz⇙aie 	gstnc⇙~*y\x↻vdbpmqr⇙⇙l⇙h↻↻OA↻↻K|F{J😜#_:)G↻NM=R+X@>}$Z😜HBQV`😜(⇙;'⇙<↻↻&U↻↻L"/DW^!IE]Y😜S-T,CP↻%[?⇙⇙⇙
+# EOF
+# )" \
+# --fix "$(cat << "EOF"
+# yaexvds
+# qzuhio 	mtrncpkglbfwj⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙1234567890.
 # EOF
 # )" \
 	
@@ -19,13 +25,12 @@ RUST_LOG=INFO ./target/release/optimize_sa \
 --run-forever \
 -n ngrams/t-cadet/ \
 --fix "$(cat << "EOF"
-yaexvds
-qzuhio 	mtrncpkglbfwj⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙
+hjkl😜$OA↻😜KW=+😜😜#_):G😜HMLRNQ~>&!Z↻VFJB`😜(⇙;<⇙'↻😜YU😜😜D"/{|^?IE]X😜S-T,CP😜6357941802%[.}⇙⇙⇙
 EOF
 )" \
 --start-layouts "$(cat << "EOF"
-↻↻uoj😜vg
-⇙wz⇙aie 	dstnc⇙^2y$k↻xfbpmqr⇙⇙l⇙h↻😜AE↻😜K|V#J↻>_),8ZB'MRFG@:3\7↻+H%XQ9.⇙;<[&😜↻!U↻↻WL/{`↻?OI]Y😜"-T(CP↻64~↻😜1S0=D5*N}⇙⇙⇙
+↻@uok😜vg
+⇙wz⇙aie 	fstnc⇙😜*y\j😜xdbpmqr⇙⇙h⇙l😜$OA↻😜KW=+😜😜#_):G😜HMLRNQ~>&!Z↻VFJB`😜(⇙;<⇙'↻😜YU😜😜D"/{|^?IE]X😜S-T,CP😜6357941802%[.}⇙⇙⇙
 EOF
 )" \
 # --start-layouts "$(cat <<- "EOF"
