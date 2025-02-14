@@ -4,17 +4,28 @@
 # --run-forever --append-solutions-to "found_solutions_not_grouped.txt" \
 # 😜^vD7😜6;-=$⌦0cts X/naeo)ZRTLB😜8SAOEU_i"
 # rl😜😜zV😜😜😜😜\@😜😜qmpdP⌫9'[*!4😜NFWK😜😜`😜😜%😜C(>j2H😜~#  😜😜😜?{}😜😜]gfyk😜5b,uh3JwGY↻\Q+|&<😜I.:1xM
+# --run-forever \
+# "@^6-9=$*!4%(>2~#?{}😜😜😜0😜5)37😜8|&<:+1
+# --fix "$(cat << "EOF"
+# ⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙↻↻↻.)↻;/=UYVFCHLZAOEIPDRTSN`XKJBQMWG\_↻↻↻↻#?:*@$'&|^1~\{[<>]}+!-234567890%↻↻↻↻↻↻
+# EOF
+# )" \
 	
 RUST_LOG=INFO ./target/release/optimize_sa \
 --do-not-remove-whitespace \
 --grouped-layout-generator \
---run-forever \
---append-solutions-to "found_solutions_not_grouped_13_dec.txt" \
+--append-solutions-to "found_solutions_not_grouped_13_feb.txt" \
 -l config/keyboard/crkbd_not_grouped.yml \
+--run-forever \
 -n ngrams/t-cadet/ \
---start-layouts "$(cat <<- "EOF"
-😜^vDK😜6;-=$😜0cts X/naeo)ZRTLB😜+SAOEU_i"
-rl😜↻zV😜😜😜😜\@😜😜qmpdP😜9'[*!4😜NFYQ😜⌦`😜😜%😜C(>j2H😜~#	😜😜😜?{}😜😜]gfyk😜5b,uh3JwG\7😜8W|&<⌫I.:1xM
+--fix "$(cat << "EOF"
+yaexvds
+qzuhio 	mtrncpkglbfwj⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙
+EOF
+)" \
+--start-layouts "$(cat << "EOF"
+↻↻uoj😜vg
+⇙wz⇙aie 	dstnc⇙^2y$k↻xfbpmqr⇙⇙l⇙h↻😜AE↻😜K|V#J↻>_),8ZB'MRFG@:3\7↻+H%XQ9.⇙;<[&😜↻!U↻↻WL/{`↻?OI]Y😜"-T(CP↻64~↻😜1S0=D5*N}⇙⇙⇙
 EOF
 )" \
 # --start-layouts "$(cat <<- "EOF"
