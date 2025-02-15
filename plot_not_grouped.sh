@@ -23,15 +23,18 @@
 # ⇙wz⇙aie 	gstnc⇙~>y\x↻vdbpmqr⇙⇙l⇙h↻↻OA↻😜K+N{J↻#_):G↻HLMRFX@*&$Z😜VB%Q`😜(⇙;'⇙<↻↻!U↻↻D"/=W^?IE]Y↻S-T,CP↻6357941802|.[}⇙⇙⇙
 # EOF
 # )"
+# †@guk†vf
+# ⇙wz⇙aoe 	cstrn⇙†*/⇙j%bdmpxqh⇙li⇙y††OAZ†KF+|††>_),GYHMDRNX†]#!\†WBQ&`†;⇙([⇙<††$U^†VLC{††?IE:J~S=T-"P†6357941802†}.'⇙⇙⇙
 #
+#†
 	
 RUST_LOG=INFO ./target/release/plot \
 --do-not-remove-whitespace \
 --grouped-layout-generator \
 -l config/keyboard/crkbd_not_grouped.yml \
 "$(cat << "EOF"
-↻@uok😜vg
-⇙wz⇙aie 	fstnc⇙😜*y\j😜xdbpmqr⇙⇙h⇙l😜$OA↻😜KW=+😜😜#_):G😜HMLRNQ~>&!Z↻VFJB`😜(⇙;<⇙'↻😜YU😜😜D"/{|^?IE]X😜S-T,CP😜6357941802%[.}⇙⇙⇙
+†$uok†vg
+⇙wz⇙aie 	bstnc⇙†*y⇙j%xdmpfqr⇙/h⇙l††OAY†K|W+††#_):G@HMLRNX†>&\Z†VFQB`†(⇙;<⇙'††!U^†D"={††?IE]J~S-T,CP†6357941802†[.}⇙⇙⇙
 EOF
 )"
 # ~qbf$\#-i=&@wdst 	:uaeo_6"0]8-{,;/)}[lhnr
