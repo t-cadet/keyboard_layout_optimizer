@@ -7,20 +7,21 @@
 # --run-forever \
 # "@^6-9=$*!4%(>2~#?{}😜😜😜0😜5)37😜8|&<:+1
 # --fix "$(cat << "EOF"
-# yaexvds
-# qzuhio 	mtrncpkglbfwj⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙1234567890./*†
+# †^uok†vg
+# ⇙z†⇙aie xfstnc⇙†*y⇙j	bdmpwq/⇙rh⇙l††A:$†W#N+††!|_,GXM{LR`K†?;]H\V&QB%†'⇙S[⇙}††<UJ†DT"=††@ZOIY~C)-(PF††⇙⇙>⇙E
 # EOF
 # )" \
 # --fix "$(cat << "EOF"
-# †hjklb††OAY†K|W+††#_):G@HMLRNX†>&\Z†VFQB`†(⇙;<⇙'††!U^†D"={††?IE]J~S-T,CP†6357941802†[.}⇙⇙⇙
+# †^uok†vg
+# ⇙z†⇙aie xfstnc⇙†*y⇙j	bdmpwq/⇙rh⇙l†††††††'⇙S⇙††|UJ†DT"=††@ZOIY~C)-(PF†6357981402†⇙.⇙>⇙E!{
 # EOF
 # )" \
 # --fix "$(cat << "EOF"
 # yaexvds
-# qzuhio 	mtrncpkglbfwj⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙1234567890./*%††††††††††††††
+# qzuhio 	mtrncpkglbfwj⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙⇙1234567890./*†(){}[]:;,_!
 # EOF
 # )" \
-	
+	# S'>E(){}[]:;,_
 RUST_LOG=INFO ./target/release/optimize_sa \
 --do-not-remove-whitespace \
 --grouped-layout-generator \
@@ -29,13 +30,12 @@ RUST_LOG=INFO ./target/release/optimize_sa \
 --run-forever \
 -n ngrams/t-cadet/ \
 --fix "$(cat << "EOF"
-†$uok†vg
-⇙wz⇙aie 	fstnc⇙†*y⇙j%xdbpmqr⇙/h⇙l††OAY†K|W+††#_):G@HMLRNX†>&\Z†VFQB`†(⇙;<⇙'††!U^†D"={††?IE]J~S-T,CP†2†[}⇙⇙⇙
+hjklmpbx††A:$†W#N+††Z<_,GXM{LR!K†?;]H\V&QB%†'⇙S[⇙}††|UJ†DT"=††@`OIY~C)-(PF†6357981402†⇙.⇙>⇙E
 EOF
 )" \
 --start-layouts "$(cat << "EOF"
-†$uok†vg
-⇙wz⇙aie 	bstnc⇙†*y⇙j%xdmpfqr⇙/h⇙l††OAY†K|W+††#_):G@HMLRNX†>&\Z†VFQB`†(⇙;<⇙'††!U^†D"={††?IE]J~S-T,CP†6357941802†[.}⇙⇙⇙
+†^uok†vg
+⇙z†⇙aie xfstnc⇙†*y⇙j	bdmpwq/⇙rh⇙l††A:$†W#N+††Z<_,GXM{LR!K†?;]H\V&QB%†'⇙S[⇙}††|UJ†DT"=††@`OIY~C)-(PF†6357981402†⇙.⇙>⇙E
 EOF
 )" \
 # --start-layouts "$(cat <<- "EOF"
