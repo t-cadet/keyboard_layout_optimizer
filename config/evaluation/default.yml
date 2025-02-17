@@ -69,7 +69,7 @@ metrics:
   # Each finger's load shall be relative to the specified weights
   finger_balance:
     enabled: true
-    weight: 100.0
+    weight: 50.0
     normalization:
       type: fixed
       value: 1.0
