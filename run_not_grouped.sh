@@ -30,12 +30,12 @@ RUST_LOG=INFO ./target/release/optimize_sa \
 -n ngrams/t-cadet/ \
 --fix "$(cat << "EOF"
 †@uok†vg
-⇙z†⇙aie xfstnc⇙†*y⇙j	bdmpwq/⇙rh⇙l††{AX~QGN+††$I,:_KV"LRM%†?;\[ZW#|&B†'⇙S]⇙}††UOY😜FT=D††^!(<HJC).-P`††⇙⇙⇙>⇙E
+?⇙z†⇙aie xfstnc⇙†/⇙j	bdmpwqy⇙rh⇙l6598731402{}()[].SE'>`^%
 EOF
 )" \
 --start-layouts "$(cat << "EOF"
-†@uok†vg
-⇙z†⇙aie xfstnc⇙†*y⇙j	bdmpwq/⇙rh⇙l††{AX~QGN+††$I,:_KV"LRM%†?;\[ZW#|&B†'⇙S]⇙}††UOY😜FT=D††^!(<HJC).-P`†6598731402†⇙⇙⇙>⇙E
+†@uok~vg
+⇙z†⇙aie xfstnc⇙†?/⇙j	bdmpwqy⇙rh⇙l††{A$†QGN#††<I,:_KV"LRMX†`;Z[\WB|&^†'⇙S]⇙}††UOY†DT=+††%!(*HJC).-PF†6598731402†⇙⇙⇙>⇙E
 EOF
 )" \
 # --start-layouts "$(cat <<- "EOF"
